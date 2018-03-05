@@ -1,3 +1,13 @@
+# Extended Robot Framework in Docker 
+
+... with many utility Libraries installed, spawned from:
+https://github.com/ppodgorsek/docker-robot-framework
+
+# acknowlegdments
+	dont forget to
+	git config --global core.autocrlf false
+	to retain line endings! 
+
 # Robot Framework in Docker, with Firefox and Chrome
 
 ## What is it?

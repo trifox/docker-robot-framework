@@ -18,7 +18,7 @@ Visit Toom.de and test search
 	Set Selenium Implicit Wait	5 seconds
 	Open Browser	http://www.toom.de  ${BROWSER}
 	Click Element	class:header-search-toggle
-	Capture Page Screenshot
+	Capture Page Screenshot	hello
 	Input Text	search	searchword
 	Capture Page Screenshot
 	Press Key	search	\\13

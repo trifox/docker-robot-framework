@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "Cleaning reports"
-rm -rf /opt/robotframework/reports/*
+# echo "Cleaning reports"
+# rm -rf /opt/robotframework/reports/*
 
 echo "Linting of robot files"
 rflint /opt/robotframework/tests/*

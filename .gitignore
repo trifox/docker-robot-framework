@@ -9,3 +9,4 @@
 *.iml
 
 reports/
+test/simpletest-demo*

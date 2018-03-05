@@ -6,5 +6,5 @@ ${BROWSER}		%{BROWSER}
 
 *** Test Cases ***
 Visit Google
-	Open Browser			http://www.google.com	${BROWSER}
+	Open Browser	http://www.google.com	${BROWSER}
 	Capture Page Screenshot

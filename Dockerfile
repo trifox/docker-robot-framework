@@ -4,10 +4,12 @@ MAINTAINER Paul Podgorsek <ppodgorsek@users.noreply.github.com>
 MAINTAINER Christian Kleinhuis <ck@froso.de>
 LABEL description Robot Framework in Docker.
 
-VOLUME /opt/robotframework/reports
-VOLUME /opt/robotframework/tests
+VOLUME $ROBOTFRAMEWORK_PATH/reports
+VOLUME $ROBOTFRAMEWORK_PATH/tests
 
 # env setup for running tests
+ENV SERVE_REPORTS 1 # 1=start express on port:3000 to browse and restart tests 0=just execute tests
+ENV ROBOTFRAMEWORK_PATH /opt/robotframework
 ENV SCREEN_COLOUR_DEPTH 24
 ENV SCREEN_HEIGHT 1080
 ENV SCREEN_WIDTH 1920
@@ -40,17 +42,18 @@ RUN pip install robotframework==3.0.2\
 	robotframework-lint\
 	robotframework-seleniumlibrary==3.0.1
 
-ADD drivers/geckodriver-v0.19.1-linux64.tar.gz /opt/robotframework/drivers/
+ADD drivers/geckodriver-v0.19.1-linux64.tar.gz $ROBOTFRAMEWORK_PATH/drivers/
 
-COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
-COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
-COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+COPY bin/chromedriver.sh $ROBOTFRAMEWORK_PATH/bin/chromedriver
+COPY bin/chromium-browser.sh $ROBOTFRAMEWORK_PATH/bin/chromium-browser
+COPY bin/run-tests-in-virtual-screen.sh $ROBOTFRAMEWORK_PATH/bin/
+COPY bin/serve-and-execute-reports.js $ROBOTFRAMEWORK_PATH/bin/
 
 # FIXME: below is a workaround, as the path is ignored
 RUN mv /usr/lib64/chromium-browser/chromium-browser /usr/lib64/chromium-browser/chromium-browser-original\
-	&& ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib64/chromium-browser/chromium-browser
+	&& ln -sfv $ROBOTFRAMEWORK_PATH/bin/chromium-browser /usr/lib64/chromium-browser/chromium-browser
 
-ENV PATH=/opt/robotframework/bin:/opt/robotframework/drivers:$PATH
-
+ENV PATH=$ROBOTFRAMEWORK_PATH/bin:$ROBOTFRAMEWORK_PATH/drivers:$PATH
+EXPOSE 3000
 #CMD ["run-tests-in-virtual-screen.sh"]
 CMD ["serve-and-execute-reports.js"]

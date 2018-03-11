@@ -45,15 +45,15 @@ RUN pip install robotframework==3.0.2\
 	robotframework-kafkalibrary==0.0.1\
 	robotframework-jsonlibrary==0.2\
 	robotframework-wiremock==0.0.8\
-	robotframework-yamllibrary ==0.2.8\
-	robotframework-sshlibrary ==2.1.3\
-	robotframework-stringformat ==0.1.7\
-	robotframework-zookeeperlibrary ==0.1.4\
-	robotframework-rabbitmq ==1.0.1\
-	robotframework-assertions ==0.0.1\
-	robotframework-csvlibrary ==0.0.2\
-	robotframework-randomlibrary ==0.0.2\
-	robotframework-websocketclient ==1.3.0\
+	robotframework-yamllibrary==0.2.8\
+	robotframework-sshlibrary==2.1.3\
+	robotframework-stringformat==0.1.7\
+	robotframework-zookeeperlibrary==0.1.4\
+	robotframework-rabbitmq==1.0.1\
+	robotframework-assertions==0.0.1\
+	robotframework-csvlibrary==0.0.2\
+	robotframework-randomlibrary==0.0.2\
+	robotframework-websocketclient==1.3.0\
 	robotframework-jsonschemalibrary==1.0\
 	robotframework-seleniumlibrary==3.1.1
 

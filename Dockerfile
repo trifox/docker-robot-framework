@@ -1,8 +1,9 @@
 FROM fedora:27
 
+MAINTAINER Christian Kleinhuis <trifox@users.noreply.github.com>
 MAINTAINER Paul Podgorsek <ppodgorsek@users.noreply.github.com>
-MAINTAINER Christian Kleinhuis <ck@froso.de>
-LABEL description Robot Framework in Docker.
+
+LABEL description Library Rich Robot Framework in Docker Firefox&Chrome.
 
 VOLUME /opt/robotframework/reports
 VOLUME /opt/robotframework/tests
@@ -12,6 +13,8 @@ VOLUME /opt/robotframework/tests
 ENV SCREEN_COLOUR_DEPTH 24
 ENV SCREEN_WIDTH 1920
 ENV SCREEN_HEIGHT 1080
+RUN echo 'log level v vv vv'
+ENV LOG_LEVEL x
 
 # ENV NODE_PATH = /lib/node_modules  # somehow fedora does not set node path, so provide it
 
@@ -19,26 +22,20 @@ ENV SCREEN_HEIGHT 1080
 # install required modules
 RUN dnf upgrade -y\
 	&& dnf install -y\
-	    which-2.21* \
-		chromedriver-63.0.*\
-		chromium-63.0.*\
-		firefox-58.0*\
-		python2-pip-9.0.1*\
-		xorg-x11-server-Xvfb-1.19.*\
+	    which-2.21-4.fc27 \
+		chromedriver-63.0.3239.108-1.fc27\
+		chromium-63.0.3239.108-1.fc27\
+		firefox-58.0.2-1.fc27\
+		python2-pip-9.0.1-14.fc27\
+		xorg-x11-server-Xvfb-1.19.6-5.fc27\
 	&& dnf clean all
-#
-#RUN dnf upgrade -y\
-#	&& dnf install -y\
-#	    nodejs \
-#	    nodejs-express \
-#	&& dnf clean all
 
 # install required/wanted robot-libraries and needed python modules
 RUN pip install robotframework==3.0.2\
 	requests==2.18.4\
 	robotframework-requests==0.4.7\
 	robotframework-advancedlogging==1.0.1\
-	robotframework-imaplibrary==0.1.4\
+	robotframework-imaplibrary==0.3.0\
 	robotframework-difflibrary==0.1.0\
 	robotframework-async==1.0.3\
 	robotframework-lint==0.9\
@@ -48,13 +45,14 @@ RUN pip install robotframework==3.0.2\
 	robotframework-jsonlibrary==0.2\
 	robotframework-wiremock==0.0.8\
 	robotframework-jsonschemalibrary==1.0\
-	robotframework-seleniumlibrary==3.0.1
+	robotframework-seleniumlibrary==3.1.1
 
 ADD drivers/geckodriver-v0.19.1-linux64.tar.gz /opt/robotframework/drivers/
 
 COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
 COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+COPY bin/system-status.sh /opt/robotframework/bin/
 
 # FIXME: below is a workaround, as the path is ignored
 RUN mv /usr/lib64/chromium-browser/chromium-browser /usr/lib64/chromium-browser/chromium-browser-original\
@@ -62,4 +60,4 @@ RUN mv /usr/lib64/chromium-browser/chromium-browser /usr/lib64/chromium-browser/
 
 ENV PATH=/opt/robotframework/bin:/opt/robotframework/drivers:$PATH
 EXPOSE 3000
-CMD ["run-tests-in-virtual-screen.sh"]
+CMD ["run-tests-in-virtual-screen.sh" ]

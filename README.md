@@ -4,34 +4,47 @@
 https://github.com/ppodgorsek/docker-robot-framework
 
 # acknowlegdments
-	dont forget to
-	git config --global core.autocrlf false
-	to retain line endings! 
 
-# Robot Framework in Docker, with Firefox and Chrome
+* WIndows user: dont forget to 
+
+      git config --global core.autocrlf false
+
+# Robot Framework in Docker, with Firefox and Chrome ... and RobotFramework Libraries
 
 ## What is it?
 
-This project consists of a Docker image containing a Robot Framework installation.
+This project consists of a Docker image containing a Robot Framework installation. 
 
 This installation also contains Firefox, Chrome and the Selenium library for Robot Framework. The test cases and reports should be mounted as volumes.
 
-## Versioning
+The robot framework comes with a bunch of preinstalled python libraries which are:
 
-The versioning of this image follows the one of Robot Framework:
 
-* Major version matches the one of Robot Framework
-* Minor and patch versions are specific to this project (allows to update the versions of the other dependencies)
+[robotframework-requests==0.4.7](http://robotframework.org/SeleniumLibrary/SeleniumLibrary.html)
 
-The versions used in the latest version are:
+[robotframework-advancedlogging==1.0.1](https://github.com/peterservice-rnd/robotframework-advancedlogging)
 
-* Robot Framework 3.0.2
-* Robot Framework SeleniumLibrary 3.0.1
-* Firefox 58.0
-* Chromium 63.0
+[robotframework-imaplibrary==0.1.4](https://rickypc.github.io/robotframework-imaplibrary/doc/ImapLibrary.html)
 
-As stated by [the official GitHub project](https://github.com/robotframework/Selenium2Library), starting from version 3.0, Selenium2Library is renamed to SeleniumLibrary and this project exists mainly to help with transitioning. The Selenium2Library 3.0.0 is also the last release and for new releases, please look at the [SeleniumLibrary](https://github.com/robotframework/SeleniumLibrary) project.
+[robotframework-difflibrary==0.1.0](https://bulkan.github.io/robotframework-difflibrary/)
 
+[robotframework-async==1.0.3](https://pypi.python.org/pypi/robotframework-async) 
+
+[robotframework-mongodblibrary==0.3.4](http://mahartma.github.io/robotframework-mongodblibrary/de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary.html)
+
+[robotframework-databaselibrary==1.0.1](https://franz-see.github.io/Robotframework-Database-Library/api/1.0.1/DatabaseLibrary.html)
+
+[robotframework-kafkalibrary==0.0.1](https://rawgit.com/s4int/robotframework-KafkaLibrary/master/doc/KafkaLibrary.html)
+
+[robotframework-jsonlibrary==0.2](https://nottyo.github.io/robotframework-jsonlibrary/JSONLibrary.html)
+
+[robotframework-wiremock==0.0.8](https://tyrjola.github.io/docs/robotframework-wiremock.html)
+
+[robotframework-jsonschemalibrary==1.0](https://github.com/jstaffans/robotframework-jsonschemalibrary)
+
+[robotframework-seleniumlibrary==3.1.1](http://robotframework.org/SeleniumLibrary/SeleniumLibrary.html)
+ 
+ 
 ## Running the container
 
 This container can be run using the following command:
@@ -74,5 +87,5 @@ Screenshots of the results will be available in the `reports/` folder.
 
 ## Please contribute!
 
-Have you found an issue? Do you have an idea for an improvement? Feel free to contribute by submitting it [on the GitHub project](https://github.com/ppodgorsek/docker-robot-framework/issues).
 
+ * created from [https://github.com/ppodgorsek/docker-robot-framework](https://github.com/ppodgorsek/docker-robot-framework) mainly because it heeded a patch for the apk installation, fixing versions and extending the robot library was the main cause

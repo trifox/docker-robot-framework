@@ -7,7 +7,7 @@ rm -rf ${REPORTDIR}/*
 echo "[INFO] Linting of robot files"
 rflint /opt/robotframework/tests/*
 echo "[INFO] Run robot tests ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH}"
-xvfb-run --server-args="-screen 0 ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH} -ac" robot --loglevel TRACE	 --outputDir ${REPORTDIR} /opt/robotframework/tests
+xvfb-run --server-args="-screen 0 ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH} -ac" robot $ROBOTPARAMS	 --outputDir ${REPORTDIR} /opt/robotframework/tests
 # copy chromedriver logs to output
 
 

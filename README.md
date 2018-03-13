@@ -9,7 +9,7 @@ https://github.com/ppodgorsek/docker-robot-framework
 
       git config --global core.autocrlf false
 
-# Robot Framework in Docker, with Firefox and Chrome ... and RobotFramework Libraries
+# Robot Framework in Docker, with Chrome only... and RobotFramework Libraries
 
 ## What is it?
 

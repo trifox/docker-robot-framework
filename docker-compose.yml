@@ -1,0 +1,9 @@
+version: '3'
+services:
+  roboter_chrome:
+    image: robotframework
+    volumes:
+      - ./reports:/opt/robotframework/reports
+      - ./test:/opt/robotframework/tests
+    environment:
+      - LOG_LEVEL=x

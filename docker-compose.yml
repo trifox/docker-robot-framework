@@ -1,7 +1,14 @@
 version: '3'
 services:
   roboter_chrome:
-    image: robotframework
+    image: ufp-docker-robot-framework
+     #
+     # shared memory size configuration
+     # even headless chrome needs some swapping memory, this is configured here
+     # and set to a reasonable amount if browser crashes without other reasons
+     # checking the free memory is quite an issue
+     #
+    shm_size: '4gb'
     volumes:
       - ./reports:/opt/robotframework/reports
       - ./test:/opt/robotframework/tests

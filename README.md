@@ -1,78 +1,92 @@
-# Extended Robot Framework in Docker 
+# Extended Robot Framework in Docker and Chrome Headless 
+
+This repository holds a [docker](http://docker.com) image with [robotframework](http://robotframework.org/) and some useful libraries pre installed,
+and a [headless chrome] that can be used in the robot testing environment using the [robotframework-seleniumlibrary]
 
 ... with many utility Libraries installed, spawned from:
-https://github.com/ppodgorsek/docker-robot-framework
+https://github.com/ppodgorsek/docker-robot-framework 
 
-# acknowlegdments
-	dont forget to
-	git config --global core.autocrlf false
-	to retain line endings! 
-
-# Robot Framework in Docker, with Firefox and Chrome
+# Robot Framework in Docker, with Chrome only... and RobotFramework Libraries
 
 ## What is it?
 
-This project consists of a Docker image containing a Robot Framework installation.
+This project consists of a Docker image containing a Robot Framework installation. 
 
 This installation also contains Firefox, Chrome and the Selenium library for Robot Framework. The test cases and reports should be mounted as volumes.
 
-## Versioning
+## Bundled Robot Libraries
 
-The versioning of this image follows the one of Robot Framework:
+The robot framework comes with a bunch of preinstalled python libraries which are:
 
-* Major version matches the one of Robot Framework
-* Minor and patch versions are specific to this project (allows to update the versions of the other dependencies)
 
-The versions used in the latest version are:
+[robotframework-requests==0.4.7](http://robotframework.org/SeleniumLibrary/SeleniumLibrary.html)
 
-* Robot Framework 3.0.2
-* Robot Framework SeleniumLibrary 3.0.1
-* Firefox 58.0
-* Chromium 63.0
+[robotframework-advancedlogging==1.0.1](https://github.com/peterservice-rnd/robotframework-advancedlogging)
 
-As stated by [the official GitHub project](https://github.com/robotframework/Selenium2Library), starting from version 3.0, Selenium2Library is renamed to SeleniumLibrary and this project exists mainly to help with transitioning. The Selenium2Library 3.0.0 is also the last release and for new releases, please look at the [SeleniumLibrary](https://github.com/robotframework/SeleniumLibrary) project.
+[robotframework-imaplibrary==0.1.4](https://rickypc.github.io/robotframework-imaplibrary/doc/ImapLibrary.html)
 
-## Running the container
+[robotframework-difflibrary==0.1.0](https://bulkan.github.io/robotframework-difflibrary/) 
 
-This container can be run using the following command:
+[robotframework-mongodblibrary==0.3.4](http://mahartma.github.io/robotframework-mongodblibrary/de.codecentric.robot.mongodblibrary.keywords.MongodbLibrary.html)
 
-    docker run -v <local path to the reports' folder>:/opt/robotframework/reports:Z\
-        -v <local path to the test suites' folder>:/opt/robotframework/tests:Z\
-        ppodgorsek/robot-framework:<version>
+[robotframework-databaselibrary==1.0.1](https://franz-see.github.io/Robotframework-Database-Library/api/1.0.1/DatabaseLibrary.html)
 
-### Switching browsers
+[robotframework-kafkalibrary==0.0.1](https://rawgit.com/s4int/robotframework-KafkaLibrary/master/doc/KafkaLibrary.html)
 
-Browsers can be easily switched. It is recommended to define `${BROWSER} %{BROWSER}` in your Robot variables and to use `${BROWSER}` in your test cases. This allows to set the browser in a single place if needed.
+[robotframework-jsonlibrary==0.2](https://nottyo.github.io/robotframework-jsonlibrary/JSONLibrary.html)
+ 
+[robotframework-jsonschemalibrary==1.0](https://github.com/jstaffans/robotframework-jsonschemalibrary)
 
-When running your tests, simply add `-e BROWSER=chrome` or `-e BROWSER=firefox` to the run command.
+[robotframework-seleniumlibrary==3.1.1](http://robotframework.org/SeleniumLibrary/SeleniumLibrary.html)
+ 
+[robotframework-csvlibrary==3.1.1](https://rawgit.com/s4int/robotframework-CSVLibrary/master/doc/CSVLibrary.html)
+ 
+[robotframework-yamlibrary==3.1.1](https://github.com/divfor/robotframework-yamllibrary)
+ 
+ 
+## Building the container
 
+	build.sh
+
+
+## Executing the container
+
+use a docker-compose.yml to define the tests - this example is included in this repo and can be started 
+	
+```dockerfile
+version: '3'
+    services:
+      roboter_chrome:
+        image: ufp-docker-robot-framework
+         #
+         # shared memory size configuration
+         # even headless chrome needs some swapping memory, this is configured here
+         # and set to a reasonable amount if browser crashes without other reasons
+         # checking the free memory is quite an issue
+         #
+        shm_size: '4gb'
+        volumes:
+          - ./reports:/opt/robotframework/reports
+          - ./test:/opt/robotframework/tests
+```
+
+place this folder where a sub-folder 'tests' exists - containing the robot test
+ 
 ### Changing the container screen's resolution
 
 It is possible to define the settings of the virtual screen in which the browser is run by changing several environment variables:
-
-* `SCREEN_COLOUR_DEPTH` (default: 24)
+ 
 * `SCREEN_HEIGHT` (default: 1080)
 * `SCREEN_WIDTH` (default: 1920)
+* `ENV ROBOT_INCLUDE_TAG` (default:'')
+* `ENV ROBOT_EXCLUDE_TAG` (default:'')
+* `ENV ROBOT_CRITICAL_TAG` (default:'critical')
+* `ENV ROBOT_NONCRITICAL_TAG` (default:'noncritical')
+* `ENV ROBOT_LOGLEVEL` (default:'INFO')
+* `ENV ROBOT_OPTIONS` (default:'')
+  
+## Acknowledgments
 
-## Testing this project
-
-Not convinced yet? Simple tests have been prepared in the `test/` folder, you can run them using the following commands:
-
-    # Using Chromium
-    docker run -v `pwd`/reports:/opt/robotframework/reports:Z\
-        -v `pwd`/test:/opt/robotframework/tests:Z\
-        -e BROWSER=chrome\
-        ppodgorsek/robot-framework:latest
-    
-    # Using Firefox
-    docker run -v `pwd`/reports:/opt/robotframework/reports:Z\
-        -v `pwd`/test:/opt/robotframework/tests:Z\
-        -e BROWSER=firefox\
-        ppodgorsek/robot-framework:latest
-
-Screenshots of the results will be available in the `reports/` folder.
-
-## Please contribute!
-
-Have you found an issue? Do you have an idea for an improvement? Feel free to contribute by submitting it [on the GitHub project](https://github.com/ppodgorsek/docker-robot-framework/issues).
-
+ - this repo has been forked from [https://github.com/ppodgorsek/docker-robot-framework](https://github.com/ppodgorsek/docker-robot-framework)
+ 
+ - Shared Memory Size 'shm_size' in cases of heavy memory use e.g. for browser testing a reasonable high memory has to be provided

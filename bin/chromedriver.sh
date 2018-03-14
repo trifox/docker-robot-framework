@@ -1,4 +1,4 @@
 #!/bin/sh
-
-/usr/bin/chromedriver --verbose --log-path=/var/log/chromedriver --no-sandbox $@
+echo "[INFO] Starting wrapped chromedriver"
+/usr/bin/chromedriver --verbose --log-path=/var/log/chromedriver --no-sandbox --headless $@
 

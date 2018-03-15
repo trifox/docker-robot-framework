@@ -9,7 +9,6 @@ VOLUME /opt/robotframework/tests
 
 # install required modules
 RUN dnf install -y\
-	    #which-2.21* \
 		chromedriver-63*\
 		chromium-63*\
 		python2-pip-9.0.1*\
@@ -35,6 +34,7 @@ RUN pip install \
 	robotframework-advancedlogging==1.0.1\
 	# Util\
 	robotframework-difflibrary==0.1.0\
+	robotframework-faker==4.2.0\
 	robotframework-lint==0.9\
 	robotframework-stringformat==0.1.7\
 	robotframework-randomlibrary==0.0.2\

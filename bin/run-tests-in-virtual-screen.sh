@@ -46,7 +46,7 @@ cp /var/log/chromedriver ${REPORTDIR}/chromedriver.log
 
 FILE=$(cat /var/log/chromedriver)
 
-echo "<html><body>${FILE}</body><html>">> ${REPORTDIR}/chromedriver.log.html
+echo "<html><body><textarea>${FILE}</textarea></body><html>">> ${REPORTDIR}/chromedriver.log.html
 
 #echo "[INFO] Trying to copy geckodriver logs"
 #cp /var/log/geckodriver.log ${REPORTDIR}/geckodriver.log

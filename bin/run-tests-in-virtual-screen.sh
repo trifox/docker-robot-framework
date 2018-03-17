@@ -3,9 +3,12 @@
 echo "[INFO] Running tests in virtual screens"
 echo "[INFO] Cleaning reports"
 REPORTDIR=/opt/robotframework/reports
+TESTDIR=/opt/robotframework/tests
+export REPORTDIR
+export TESTDIR
 rm -rf ${REPORTDIR}/*
 echo "[INFO] Linting of robot files"
-rflint /opt/robotframework/tests/*
+rflint ${TESTDIR}/*
 echo "[INFO] Run robot tests ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH}"
 echo "[INFO] Critical Tags [${ROBOT_CRITICAL_TAG}]  "
 echo "[INFO] NonCritical Tags [${ROBOT_NONCRITICAL_TAG}]  "
@@ -15,17 +18,19 @@ echo "[INFO] Log level [${ROBOT_LOGLEVEL}]  "
 echo "[INFO] Other options [${ROBOT_OPTIONS}]  "
 # xvfb-run --server-args="-screen 0 ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH} -ac"
 
-echo "[INFO] Start ${date}"
+START_DATE=$(date)
+echo "[INFO] Start ${START_DATE}"
 
 robot  -L ${ROBOT_LOGLEVEL} -i "${ROBOT_INCLUDE_TAG}"  -e "${ROBOT_EXCLUDE_TAG}"  -c "${ROBOT_CRITICAL_TAG}" -n "${ROBOT_NONCRITICAL_TAG}" --xunit xunit.xml \
-	--outputDir ${REPORTDIR}  ${ROBOT_OPTIONS} /opt/robotframework/tests
+	--outputDir ${REPORTDIR}  ${ROBOT_OPTIONS} ${TESTDIR}
 # copy chromedriver logs to output
 
+END_DATE=$(date)
+echo "[INFO] End ${END_DATE}"
 
-echo "[INFO] End ${date}"
+create-documentation.sh
 
-
-if [ "${LOG_LEVEL}" = "vv" ]
+if [ "${LOG_LEVEL}" = "vvv" ]
 then
 system-status.sh
 fi
@@ -34,3 +39,4 @@ cp /var/log/chromedriver ${REPORTDIR}/chromedriver
 #echo "[INFO] Trying to copy geckodriver logs"
 #cp /var/log/geckodriver.log ${REPORTDIR}/geckodriver.log
 
+create-report-index-html.sh

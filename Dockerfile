@@ -92,6 +92,8 @@ COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
 COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
 
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+COPY bin/create-documentation.sh /opt/robotframework/bin/
+COPY bin/create-report-index-html.sh /opt/robotframework/bin/
 COPY bin/system-status.sh /opt/robotframework/bin/
 #COPY bin/firefox-browser.sh /opt/robotframework/bin/
 

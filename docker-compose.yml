@@ -13,4 +13,4 @@ services:
       - ./reports:/opt/robotframework/reports
       - ./test:/opt/robotframework/tests
     environment:
-      - LOG_LEVEL=x
+      - LOG_LEVEL=vv

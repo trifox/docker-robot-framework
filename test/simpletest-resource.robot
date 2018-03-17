@@ -5,7 +5,7 @@ Library           SeleniumLibrary
 *** Variables ***
 ${BROWSER}        %{BROWSER}
 
-*** Test Cases ***
+*** Keywords ***
 Visit Google
     [Documentation]    open browser and make screenshot
     Open Browser    http://www.google.com    ${BROWSER}

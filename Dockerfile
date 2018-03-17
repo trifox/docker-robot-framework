@@ -7,11 +7,12 @@ LABEL description Library rich Robot Framework in Docker Chrome Headless.
 VOLUME /opt/robotframework/reports
 VOLUME /opt/robotframework/tests
 
+RUN yum list installed
 # install required modules
 RUN dnf install -y\
 		chromedriver-63*\
 		chromium-63*\
-		python2-pip-9.0.1*\
+		python2-pip-9.0.2*\
 	&& dnf clean all
 
 # install required/wanted robot-libraries and needed python modules
@@ -19,7 +20,6 @@ RUN pip install \
 	# Base Libraries\
 	robotframework==3.0.2\
 	requests==2.18.4\
-	robotframework-requests==0.4.7\
 	# Data Exchange\
 	robotframework-jsonlibrary==0.2\
 	robotframework-csvlibrary==0.0.2\
@@ -29,25 +29,31 @@ RUN pip install \
 	robotframework-mongodblibrary==0.3.4\
 	robotframework-databaselibrary==1.0.1\
 	# Services\
+	robotframework-apachetomcat==1.0.1\
 	robotframework-imaplibrary==0.3.0\
 	robotframework-kafkalibrary==0.0.1\
-	robotframework-advancedlogging==1.0.1\
+	robotframework-rabbitmq==1.0.1\
+	robotframework-redislibrary==0.1\
+	robotframework-zookeeperlibrary==0.1.4\
+	robotframework-ftplibrary==1.5\
+	# Frameworks
+	robotframework-react==1.0.0a1\
+	robotframework-jmeterlibrary==1.2\
+	robotframework-webpack==1.1.3\
 	# Util\
+	robotframework-advancedlogging==1.0.1\
+	robotframework-async==1.0.3\
 	robotframework-difflibrary==0.1.0\
 	robotframework-faker==4.2.0\
 	robotframework-lint==0.9\
+	robotframework-requests==0.4.7\
+	robotframework-sshlibrary==2.1.3\
 	robotframework-stringformat==0.1.7\
 	robotframework-randomlibrary==0.0.2\
-	robotframework-seleniumlibrary==3.1.1
+	robotframework-seleniumlibrary==3.1.1\
+	robotframework-websocketclient==1.3.0
 
 # inactive due to size
-#	robotframework-websocketclient==1.3.0\
-#	robotframework-zookeeperlibrary==0.1.4\
-#	robotframework-async==1.0.3\
-#	robotframework-wiremock==0.0.8\
-#	robotframework-sshlibrary==2.1.3\
-#	robotframework-rabbitmq==1.0.1\
-
 # env setup for running tests
 # ENV SERVE_REPORTS 1 --- 1=start express on port:3000 to browse and restart tests 0=just execute tests
 ENV ROBOT_PARAMS '--loglevel TRACE'

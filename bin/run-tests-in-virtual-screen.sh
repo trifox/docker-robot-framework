@@ -16,7 +16,14 @@ echo "[INFO] Includes Tags [${ROBOT_INCLUDE_TAG}]  "
 echo "[INFO] Excludes Tags [${ROBOT_EXCLUDE_TAG}]  "
 echo "[INFO] Log level [${ROBOT_LOGLEVEL}]  "
 echo "[INFO] Other options [${ROBOT_OPTIONS}]  "
+echo "[INFO] UfpRobotFramework LogLevel is  [${LOG_LEVEL}]  "
 # xvfb-run --server-args="-screen 0 ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH} -ac"
+
+
+if [ "${LOG_LEVEL}" = "vv" ] ||[ "${LOG_LEVEL}" = "vvv" ]
+then
+create-documentation.sh
+fi
 
 START_DATE=$(date)
 echo "[INFO] Start ${START_DATE}"
@@ -28,14 +35,18 @@ robot  -L ${ROBOT_LOGLEVEL} -i "${ROBOT_INCLUDE_TAG}"  -e "${ROBOT_EXCLUDE_TAG}"
 END_DATE=$(date)
 echo "[INFO] End ${END_DATE}"
 
-create-documentation.sh
 
 if [ "${LOG_LEVEL}" = "vvv" ]
 then
 system-status.sh
 fi
 echo "[INFO] Trying to copy chromedriver logs"
-cp /var/log/chromedriver ${REPORTDIR}/chromedriver
+cp /var/log/chromedriver ${REPORTDIR}/chromedriver.log
+
+FILE=$(cat /var/log/chromedriver)
+
+echo "<html><body>${FILE}</body><html>">> ${REPORTDIR}/chromedriver.log.html
+
 #echo "[INFO] Trying to copy geckodriver logs"
 #cp /var/log/geckodriver.log ${REPORTDIR}/geckodriver.log
 

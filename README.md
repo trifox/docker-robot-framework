@@ -106,7 +106,23 @@ several environment variables:
 * `ENV ROBOT_NONCRITICAL_TAG` (default:'noncritical')
 * `ENV ROBOT_LOGLEVEL` (default:'INFO')
 * `ENV ROBOT_OPTIONS` (default:'')
-  
+### Log Level Documentation
+ 
+ the log level is using v,vv,vvv for log level depth here the various depths are explained and what they do in the current configuration
+ 
+#### Loglevel v
+	* lints source test files    
+	* prints information on console
+
+#### Loglevel vv
+	* creates keyword resource documentation 
+	* creates test documentation
+	* tidies up source test files
+	* creates library documentaiton from bundled libraries in /reports/doc
+#### Loglevel vvv
+	* system level python packages version info
+	* system level package version info
+
 ## Acknowledgments
 
  - this repo has been forked from [https://github.com/ppodgorsek/docker-robot-framework](https://github.com/ppodgorsek/docker-robot-framework)

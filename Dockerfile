@@ -12,7 +12,7 @@ RUN yum list installed
 RUN dnf install -y\
 		chromedriver-63*\
 		chromium-63*\
-		python2-pip-9.0.2*\
+		python2-pip-9.0.1*\
 	&& dnf clean all
 
 # install required/wanted robot-libraries and needed python modules
@@ -35,7 +35,7 @@ RUN pip install \
 	robotframework-rabbitmq==1.0.1\
 	robotframework-redislibrary==0.1\
 	robotframework-zookeeperlibrary==0.1.4\
-	robotframework-ftplibrary==1.5\
+	robotframework-ftplibrary==1.6\
 	# Frameworks
 	robotframework-react==1.0.0a1\
 	robotframework-jmeterlibrary==1.2\
@@ -99,6 +99,7 @@ COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
 
 COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
 COPY bin/create-documentation.sh /opt/robotframework/bin/
+COPY bin/create-library-documentation.sh /opt/robotframework/bin/
 COPY bin/create-report-index-html.sh /opt/robotframework/bin/
 COPY bin/system-status.sh /opt/robotframework/bin/
 #COPY bin/firefox-browser.sh /opt/robotframework/bin/

@@ -6,7 +6,8 @@ REPORTDIR=/opt/robotframework/reports
 TESTDIR=/opt/robotframework/tests
 export REPORTDIR
 export TESTDIR
-rm -rf ${REPORTDIR}/*
+rm ${REPORTDIR}/*
+rm -rf ${REPORTDIR}/doc/test/*
 echo "[INFO] Linting of robot files"
 rflint ${TESTDIR}/*
 echo "[INFO] Run robot tests ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH}"

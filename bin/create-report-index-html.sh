@@ -1,10 +1,11 @@
 #!/bin/bash
+source util.sh
 
 START_DATE=$(date)
-echo "[INFO] Index Html Report Start ${START_DATE}"
+logv "[INFO] Index Html Report Start ${START_DATE}"
 
 # code tidy is included in reporting step (for now) and helps syntax parsing
-python -m robot.tidy -recursive --lineseparator unix /opt/robotframework/tests
+python -m robot.tidy -r -l unix /opt/robotframework/tests
 
 # enable filename double star ** globbing using globstar shell extension
 shopt -s globstar
@@ -12,7 +13,7 @@ shopt -s globstar
 HTML=" "
 INDEX=0
 
-echo "[INFO] ReportDir is :${REPORTDIR} "
+logvv "[INFO] ReportDir is :${REPORTDIR} "
 
 HTML="${HTML}
 <div class='card'>
@@ -34,13 +35,17 @@ HTML="${HTML}
 
 "
 
-  for file in ${REPORTDIR}/doc/test/**/*.html
+for file in ${REPORTDIR}/doc/test/**/*.html
 do
+
+if [ -e $file ]  ;
+then
   RELATIVE=${file//${REPORTDIR}\//}
-  echo "Eventual HTML File: ${INDEX}-${RELATIVE}"
+  logvv "HTML File: ${INDEX}-${RELATIVE}"
   HTML="${HTML}<a href='${RELATIVE}' class='btn btn-info  '>${RELATIVE}</a>
   "
   INDEX=$((INDEX+1))
+fi
 done
 
 HTML="${HTML}
@@ -52,14 +57,19 @@ HTML="${HTML}
 
 "
 
-  for file in ${REPORTDIR}/doc/library/**/*.html
+INDEX=0
+for file in ${REPORTDIR}/doc/library/**/*.html
 do
+
+if [ -e $file ]  ;
+then
   RELATIVE=${file//${REPORTDIR}\//}
   NAME=${file//${REPORTDIR}\/doc\/library\//}
-  echo "Eventual HTML File: ${INDEX}-${RELATIVE}"
+  logvv "HTML File: ${INDEX}-${RELATIVE}"
   HTML="${HTML}<a href='${RELATIVE}' class='btn btn-info'>${NAME}</a>
   "
   INDEX=$((INDEX+1))
+fi
 done
 
 HTML="${HTML}
@@ -112,4 +122,4 @@ ${HTML}
 </html>" >> ${REPORTDIR}/index.html
 
 END_DATE=$(date)
-echo "[INFO] Index Html Report End ${END_DATE}"
+logv "[INFO] Index Html Report End ${END_DATE}"

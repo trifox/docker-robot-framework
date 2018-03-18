@@ -102,6 +102,7 @@ COPY bin/create-documentation.sh /opt/robotframework/bin/
 COPY bin/create-library-documentation.sh /opt/robotframework/bin/
 COPY bin/create-report-index-html.sh /opt/robotframework/bin/
 COPY bin/system-status.sh /opt/robotframework/bin/
+COPY bin/util.sh /opt/robotframework/bin/
 #COPY bin/firefox-browser.sh /opt/robotframework/bin/
 
 #RUN which firefox

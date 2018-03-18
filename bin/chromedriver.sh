@@ -1,5 +1,6 @@
 #!/bin/sh
-echo "[INFO] Starting wrapped chromedriver"
+source util.sh
+logv "[INFO] Starting wrapped chromedriver"
 # When no logging set, dont log chrome as well
 if [ "${LOG_LEVEL}" = "v" ]||[ "${LOG_LEVEL}" = "vv" ]||[ "${LOG_LEVEL}" = "vvv" ]
 then

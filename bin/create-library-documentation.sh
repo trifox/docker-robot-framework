@@ -1,9 +1,9 @@
 #!/bin/bash
+source util.sh
+
 START_DATE=$(date)
-echo "[INFO] Library Documentation Start ${START_DATE}"
-
-
-echo "[INFO] Creating Library documentation"
+logv "[INFO] Library Documentation Start ${START_DATE}"
+logvv "[INFO] Creating Library documentation"
 
 
 
@@ -43,11 +43,11 @@ python -m robot.libdoc RabbitMq  ${GENERATED}/doc/library/RabbitMqLibrary.html
 python -m robot.libdoc WebpackLibrary  ${GENERATED}/doc/library/WebpackLibrary.html
 python -m robot.libdoc WebSocketClient  ${GENERATED}/doc/library/WebsocketClientLibrary.html
 else
-echo "Re-Using existing documentation"
+logvv "Re-Using existing documentation"
 fi
 
 
-echo "[INFO] Creating Library documentation finished"
+logvv "[INFO] Creating Library documentation finished"
 
 END_DATE=$(date)
-echo "[INFO] Library Documentation End ${END_DATE}"
+logv "[INFO] Library Documentation End ${END_DATE}"

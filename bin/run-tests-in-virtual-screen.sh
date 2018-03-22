@@ -1,24 +1,22 @@
 #!/bin/bash
 source util.sh
-
+START_TIME=$SECONDS
 log "[INFO] Running tests in virtual screens"
-logv "[INFO] Cleaning reports"
-REPORTDIR=/opt/robotframework/reports
-TESTDIR=/opt/robotframework/tests
+REPORTDIR=${1:-/opt/robotframework/reports}
+TESTDIR=${2:-/opt/robotframework/tests}
 export REPORTDIR
 export TESTDIR
 
-rm -f ${REPORTDIR}/*.*
-rm -rf ${REPORTDIR}/doc/test/*
-
-logv "[INFO] Cleaning reports finished"
-
+#logv "[INFO] Cleaning reports"
+#rm -f ${REPORTDIR}/*.*
+#rm -rf ${REPORTDIR}/doc/test/*
+#logv "[INFO] Cleaning reports finished"
 
 logv "[INFO] Linting of robot files"
 rflint ${TESTDIR}/*
 logv "[INFO] Linting of robot files finished"
 
-logvv "[INFO] Run robot tests ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH}"
+logv "[INFO] Run robot tests ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH}"
 logv "[INFO] Critical Tags [${ROBOT_CRITICAL_TAG}]  "
 logv "[INFO] NonCritical Tags [${ROBOT_NONCRITICAL_TAG}]  "
 logv "[INFO] Includes Tags [${ROBOT_INCLUDE_TAG}]  "
@@ -37,8 +35,7 @@ fi
 START_DATE=$(date)
 logv "[INFO] Start ${START_DATE}"
 
-robot  -L ${ROBOT_LOGLEVEL} -i "${ROBOT_INCLUDE_TAG}"  -e "${ROBOT_EXCLUDE_TAG}"  -c "${ROBOT_CRITICAL_TAG}" -n "${ROBOT_NONCRITICAL_TAG}" --xunit xunit.xml \
-	--outputDir ${REPORTDIR}  ${ROBOT_OPTIONS} ${TESTDIR}
+robot  -L ${ROBOT_LOGLEVEL} -i "${ROBOT_INCLUDE_TAG}"  -e "${ROBOT_EXCLUDE_TAG}"  -c "${ROBOT_CRITICAL_TAG}" -n "${ROBOT_NONCRITICAL_TAG}" --xunit xunit.xml --outputDir ${REPORTDIR}  ${ROBOT_OPTIONS} ${TESTDIR}
 # copy chromedriver logs to output
 ROBOTRESULT=$?
 
@@ -54,17 +51,15 @@ fi
 
 if [ -e /var/log/chromedriver ]
 then
-
 logv "[INFO] Trying to copy chromedriver logs"
 cp /var/log/chromedriver ${REPORTDIR}/chromedriver.log
-
-FILE=$(cat /var/log/chromedriver)
-
-logv "<html><body><textarea>${FILE}</textarea></body><html>">> ${REPORTDIR}/chromedriver.log.html
-
 fi
 
 create-report-index-html.sh
 
 log "[INFO] Finished running tests in virtual screens"
+
+ELAPSED_TIME=$(($SECONDS - $START_TIME))
+echo "UfpRobotDocker total duration: $(($ELAPSED_TIME/60)) min $(($ELAPSED_TIME%60)) sec"
+
 exit $ROBOTRESULT

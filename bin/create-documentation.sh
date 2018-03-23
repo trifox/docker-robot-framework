@@ -3,10 +3,10 @@ source util.sh
 START_DATE=$(date)
 logv "[INFO] Documentation Start ${START_DATE}"
 
-logvv "[INFO] Tidy up sourcecode in place recursive"
-python -m robot.tidy -r -l unix /opt/robotframework/tests
-logvv "[INFO] Tidy up sourcecode finished
-"
+#logvv "[INFO] Tidy up sourcecode in place recursive"
+#python -m robot.tidy -r -l unix /opt/robotframework/tests
+#logvv "[INFO] Tidy up sourcecode finished
+#"
 logvv "[INFO] Creating test Resource documentation"
 # enable filename double star ** globbing using globstar shell extension
 shopt -s globstar

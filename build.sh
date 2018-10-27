@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE_NAME="ufp-docker-robot-framework"
+IMAGE_NAME="ckleinhuis/ufp-robotframework"
 
 # build docker image from current setup usefor rebuild (e.g. changes in bin folder)
 docker build $@ . -t $IMAGE_NAME

@@ -1,4 +1,6 @@
-FROM fedora:27
+FROM alpine
+
+RUN apk update
 
 MAINTAINER Christian Kleinhuis <trifox@users.noreply.github.com>
 
@@ -7,13 +9,14 @@ LABEL description Library rich Robot Framework in Docker Chrome Headless.
 VOLUME /opt/robotframework/reports
 VOLUME /opt/robotframework/tests
 
-RUN yum list installed
 # install required modules
-RUN dnf install -y\
-		chromedriver-63*\
-		chromium-63*\
-		python2-pip-9.0.1*\
-	&& dnf clean all
+RUN apk add \
+		chromium-chromedriver\
+		chromium\
+		py2-pip\
+		bash\
+	&& apk del --purge
+
 
 # install required/wanted robot-libraries and needed python modules
 RUN pip install \
@@ -25,9 +28,11 @@ RUN pip install \
 	robotframework-csvlibrary==0.0.2\
 	robotframework-yamllibrary==0.2.8\
 	robotframework-jsonschemalibrary==1.0\
+	robotframework-jsonvalidator\
 	# Database\
 	robotframework-mongodblibrary==0.3.4\
 	robotframework-databaselibrary==1.0.1\
+	robotframework-pg8000\
 	# Services\
 	robotframework-apachetomcat==1.0.1\
 	robotframework-imaplibrary==0.3.0\

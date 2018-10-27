@@ -32,7 +32,6 @@ python -m robot.libdoc RandomLibrary ${GENERATED}/doc/library/RandomLibrary.html
 python -m robot.libdoc RequestsLibrary  ${GENERATED}/doc/library/RequestsLibrary.html
 python -m robot.libdoc ZookeeperLibrary ${GENERATED}/doc/library/ZookeeperLibrary.html
 python -m robot.libdoc AsyncLibrary ${GENERATED}/doc/library/AsyncLibrary.html
-python -m robot.libdoc SSHLibrary ${GENERATED}/doc/library/SSHLibrary.html
 python -m robot.libdoc RedisLibrary ${GENERATED}/doc/library/RedisLibrary.html
 python -m robot.libdoc ApacheTomcatManager ${GENERATED}/doc/library/ApacheTomcatManagerLibrary.html
 python -m robot.libdoc ReactLibrary ${GENERATED}/doc/library/ReactLibrary.html

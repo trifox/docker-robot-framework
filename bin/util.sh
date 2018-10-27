@@ -19,7 +19,7 @@ logvv(){
 }
 
 logvvv(){
-    if [ "${LOG_LEVEL}" = "v" ] ||[ "${LOG_LEVEL}" = "vv" ] ||[ "${LOG_LEVEL}" = "vvv" ]
+    if [ "${LOG_LEVEL}" = "vvv" ]
 	then
 		log $@
 	fi

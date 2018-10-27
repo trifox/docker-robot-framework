@@ -5,7 +5,10 @@ START_DATE=$(date)
 logv "[INFO] Index Html Report Start ${START_DATE}"
 
 # code tidy is included in reporting step (for now) and helps syntax parsing
+
+logvv "[INFO] Tidy up source code"
 python -m robot.tidy -r -l unix /opt/robotframework/tests
+logvv "[INFO] Tidy up source code finished"
 
 # enable filename double star ** globbing using globstar shell extension
 shopt -s globstar
@@ -14,7 +17,6 @@ HTML=" "
 INDEX=0
 
 logvv "[INFO] ReportDir is :${REPORTDIR} "
-
 HTML="${HTML}
 <div class='card'>
 <div class='card-body'>
@@ -65,7 +67,7 @@ if [ -e $file ]  ;
 then
   RELATIVE=${file//${REPORTDIR}\//}
   NAME=${file//${REPORTDIR}\/doc\/library\//}
-  logvv "HTML File: ${INDEX}-${RELATIVE}"
+  logvvv "HTML File: ${INDEX}-${RELATIVE}"
   HTML="${HTML}<a href='${RELATIVE}' class='btn btn-info'>${NAME}</a>
   "
   INDEX=$((INDEX+1))
@@ -82,9 +84,9 @@ then
 <div class='card'>
 	<div class='card-body'>
 		<h2>System Logs</h2>
-		<a href='chromedriver.log.html' class='btn btn-danger  btn-block'>chromeDriver Logs</a>
-		<a href='xunit.xml' class='btn btn-danger  btn-block'>robot xunit.xml</a>
-		<a href='output.xml' class='btn btn-danger  btn-block'>robot output.xml</a>
+		<a href='chromedriver.log' class='btn btn-warning  btn-block'>chromeDriver Logs</a>
+		<a href='xunit.xml' class='btn btn-warning  btn-block'>robot xunit.xml</a>
+		<a href='output.xml' class='btn btn-warning  btn-block'>robot output.xml</a>
 	</div>
 </div>
 "
@@ -119,7 +121,7 @@ ${HTML}
 <br/>
 <br/>
 </body>
-</html>" >> ${REPORTDIR}/index.html
+</html>" > ${REPORTDIR}/index.html
 
 END_DATE=$(date)
 logv "[INFO] Index Html Report End ${END_DATE}"

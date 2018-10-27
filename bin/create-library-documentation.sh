@@ -11,7 +11,8 @@ logvv "[INFO] Creating Library documentation"
 
 GENERATED=${REPORTDIR}
 
-if [ ! -d "${REPORTDIR}/doc/library" ] ; then
+if [ ! -d "${REPORTDIR}/doc/library" ] ;
+then
     # Will enter here if $DIRECTORY exists, even if it contains spaces
  mkdir ${REPORTDIR}/doc
  mkdir ${REPORTDIR}/doc/library
@@ -43,7 +44,7 @@ python -m robot.libdoc RabbitMq  ${GENERATED}/doc/library/RabbitMqLibrary.html
 python -m robot.libdoc WebpackLibrary  ${GENERATED}/doc/library/WebpackLibrary.html
 python -m robot.libdoc WebSocketClient  ${GENERATED}/doc/library/WebsocketClientLibrary.html
 else
-logvv "Re-Using existing documentation"
+logvv "[INFO] Re-Using existing documentation"
 fi
 
 

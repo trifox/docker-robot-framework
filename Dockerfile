@@ -1,7 +1,5 @@
 FROM alpine
 
-RUN apk update
-
 MAINTAINER Christian Kleinhuis <trifox@users.noreply.github.com>
 
 LABEL description Library rich Robot Framework in Docker Chrome Headless.
@@ -10,7 +8,7 @@ VOLUME /opt/robotframework/reports
 VOLUME /opt/robotframework/tests
 
 # install required modules
-RUN apk add \
+RUN apk update && apk upgrade && apk add --no-cache \
 		chromium-chromedriver\
 		chromium\
 		py2-pip\
@@ -21,18 +19,18 @@ RUN apk add \
 # install required/wanted robot-libraries and needed python modules
 RUN pip install \
 	# Base Libraries\
-	robotframework==3.0.2\
-	requests==2.18.4\
+	robotframework==3.0.4\
 	# Data Exchange\
 	robotframework-jsonlibrary==0.2\
 	robotframework-csvlibrary==0.0.2\
 	robotframework-yamllibrary==0.2.8\
 	robotframework-jsonschemalibrary==1.0\
-	robotframework-jsonvalidator\
+	robotframework-jsonvalidator==1.0.1\
 	# Database\
+	robotframework-databaselibrary==1.1.1\
 	robotframework-mongodblibrary==0.3.4\
-	robotframework-databaselibrary==1.0.1\
-	robotframework-pg8000\
+	pg8000==1.12.3\
+	PyMySQL==0.8.1\
 	# Services\
 	robotframework-apachetomcat==1.0.1\
 	robotframework-imaplibrary==0.3.0\
@@ -51,13 +49,12 @@ RUN pip install \
 	robotframework-difflibrary==0.1.0\
 	robotframework-faker==4.2.0\
 	robotframework-lint==0.9\
-	robotframework-requests==0.4.7\
-	robotframework-sshlibrary==2.1.3\
-	robotframework-stringformat==0.1.7\
+	robotframework-requests==0.5.0\
+	robotframework-stringformat==0.1.8\
 	robotframework-randomlibrary==0.0.2\
-	robotframework-seleniumlibrary==3.1.1\
+	robotframework-seleniumlibrary==3.2.0\
 	robotframework-websocketclient==1.3.0
-
+RUN pip list --outdated
 # inactive due to size
 # env setup for running tests
 # ENV SERVE_REPORTS 1 --- 1=start express on port:3000 to browse and restart tests 0=just execute tests
@@ -98,6 +95,10 @@ ENV ROBOT_LOGLEVEL 'INFO'
 # Remaining robot options inserted at the end of robot config, before test folder
 ENV ROBOT_OPTIONS ''
 
+
+
+
+
 #ADD drivers/geckodriver-v0.19.1-linux64.tar.gz /opt/robotframework/drivers/
 COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
 COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
@@ -109,17 +110,21 @@ COPY bin/create-report-index-html.sh /opt/robotframework/bin/
 COPY bin/system-status.sh /opt/robotframework/bin/
 COPY bin/util.sh /opt/robotframework/bin/
 #COPY bin/firefox-browser.sh /opt/robotframework/bin/
-
+RUN echo "Hey"
 #RUN which firefox
 # WIP but for now removed for the sake of smaller image, just headless chrome ...
 # FIXME: below is a workaround, as the path is ignored
-RUN mv /usr/lib64/chromium-browser/chromium-browser /usr/lib64/chromium-browser/chromium-browser-original
-RUN ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib64/chromium-browser/chromium-browser
+RUN ls -la /usr/bin
+RUN ls -la /usr/lib/chromium
+RUN ls -la /usr/bin/chromium-browser
+
+RUN mv /usr/lib/chromium/chrome /usr/lib/chromium/chromium-original
+RUN ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib/chromium/chrome
 
 #RUN mv /usr/bin/firefox /usr/bin/firefox-original
 #RUN ln -sfv /opt/robotframework/bin/firefox-browser /usr/bin/firefox
 
- RUN rm -rf /var/cache/*
+RUN rm -rf /var/cache/*
 ENV PATH=/opt/robotframework/bin:/opt/robotframework/drivers:$PATH
 EXPOSE 3000
 CMD ["run-tests-in-virtual-screen.sh" ]

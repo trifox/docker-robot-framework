@@ -19,3 +19,847 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Step 24/38 : COPY bin/create-documentation.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> af5fc36c9ff2
+Step 25/38 : COPY bin/create-library-documentation.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> fa354df09c82
+Step 26/38 : COPY bin/create-report-index-html.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 8f62b085bd73
+Step 27/38 : COPY bin/system-status.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 726feda3c14b
+Step 28/38 : COPY bin/util.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 79ec97e2c11c
+Step 29/38 : RUN ls -la /usr/bin
+ ---> Using cache
+ ---> 6267e3aead27
+Step 30/38 : RUN ls -la /usr/lib
+ ---> Using cache
+ ---> 6fca591f7a9e
+Step 31/38 : RUN ls -la /usr/lib/chromium-browser
+ ---> Running in 700afa423853
+ls: /usr/lib/chromium-browser: No such file or directory
+The command '/bin/sh -c ls -la /usr/lib/chromium-browser' returned a non-zero code: 1
+---------------------------------------------------------------------------------------------
+Docker build finished
+Docker Image name: 'ckleinhuis/ufp-robotframework'
+Example usage of this Docker Image:
+
+Step 1: Create docker-compose.yml
+
+version: '3'
+services:
+  roboter_chrome:
+    image: ckleinhuis/ufp-robotframework:latest
+     #
+     # shared memory size configuration
+     # even headless chrome needs some swapping memory, this is configured here
+     # and set to a reasonable amount if browser crashes without other reasons
+     # checking the free memory is quite an issue
+     #
+    shm_size: '4gb'
+    volumes:
+      - ./reports:/opt/robotframework/reports
+      - ./test:/opt/robotframework/tests
+    environment:
+      - LOG_LEVEL=vvv
+
+Step 2: execute 'docker-compose up'
+---------------------------------------------------------------------------------------------
+ckleinhuis@ubuntu-xenial:/Project/ufp-robotframework$ sudo ./build.sh
+Sending build context to Docker daemon  13.39MB
+Step 1/37 : FROM alpine
+ ---> 196d12cf6ab1
+Step 2/37 : MAINTAINER Christian Kleinhuis <trifox@users.noreply.github.com>
+ ---> Using cache
+ ---> ba3246a4b465
+Step 3/37 : LABEL description Library rich Robot Framework in Docker Chrome Headless.
+ ---> Using cache
+ ---> 1a2f3cec24f4
+Step 4/37 : VOLUME /opt/robotframework/reports
+ ---> Using cache
+ ---> 54563f52fccc
+Step 5/37 : VOLUME /opt/robotframework/tests
+ ---> Using cache
+ ---> 0a7d0de20185
+Step 6/37 : RUN apk update && apk upgrade && apk add --no-cache                 chromium-chromedriver                chromium                py2-pip         bash    && apk del --purge
+ ---> Using cache
+ ---> 38e2f9efa9b4
+Step 7/37 : RUN pip install     robotframework==3.0.4   robotframework-jsonlibrary==0.2      robotframework-csvlibrary==0.0.2        robotframework-yamllibrary==0.2.8   robotframework-jsonschemalibrary==1.0    robotframework-jsonvalidator==1.0.1     robotframework-databaselibrary==1.1.1        robotframework-mongodblibrary==0.3.4    pg8000==1.12.3       PyMySQL==0.8.1  robotframework-apachetomcat==1.0.1      robotframework-imaplibrary==0.3.0    robotframework-kafkalibrary==0.0.1      robotframework-rabbitmq==1.0.1       robotframework-redislibrary==0.1        robotframework-zookeeperlibrary==0.1.4       robotframework-ftplibrary==1.6  robotframework-react==1.0.0a1   robotframework-jmeterlibrary==1.2    robotframework-webpack==1.1.3   robotframework-advancedlogging==1.0.1        robotframework-async==1.0.3     robotframework-difflibrary==0.1.0    robotframework-faker==4.2.0     robotframework-lint==0.9        robotframework-requests==0.5.0       robotframework-stringformat==0.1.8      robotframework-randomlibrary==0.0.2  robotframework-seleniumlibrary==3.2.0   robotframework-websocketclient==1.3.0
+ ---> Using cache
+ ---> bbaefc05a942
+Step 8/37 : RUN pip list --outdated
+ ---> Using cache
+ ---> ec3a5c9eeeb6
+Step 9/37 : ENV ROBOT_PARAMS '--loglevel TRACE'
+ ---> Using cache
+ ---> 552b3cb4323d
+Step 10/37 : ENV SCREEN_COLOUR_DEPTH 24
+ ---> Using cache
+ ---> d9a42e72d308
+Step 11/37 : ENV SCREEN_WIDTH 1920
+ ---> Using cache
+ ---> b142641b4f9a
+Step 12/37 : ENV SCREEN_HEIGHT 1080
+ ---> Using cache
+ ---> fedae15c8cf8
+Step 13/37 : ENV LOG_LEVEL x
+ ---> Using cache
+ ---> 2ca3104880be
+Step 14/37 : ENV BROWSER chrome
+ ---> Using cache
+ ---> 6a3e04ce0132
+Step 15/37 : ENV ROBOT_INCLUDE_TAG ''
+ ---> Using cache
+ ---> 85d8dbea56ec
+Step 16/37 : ENV ROBOT_EXCLUDE_TAG ''
+ ---> Using cache
+ ---> 24d4cdb3a9db
+Step 17/37 : ENV ROBOT_CRITICAL_TAG 'critical'
+ ---> Using cache
+ ---> b1f7c7acd4ee
+Step 18/37 : ENV ROBOT_NONCRITICAL_TAG 'noncritical'
+ ---> Using cache
+ ---> 652e0a6574d5
+Step 19/37 : ENV ROBOT_LOGLEVEL 'INFO'
+ ---> Using cache
+ ---> 1e941153c8f9
+Step 20/37 : ENV ROBOT_OPTIONS ''
+ ---> Using cache
+ ---> 7c8c430865e0
+Step 21/37 : COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
+ ---> Using cache
+ ---> c42df1a35db8
+Step 22/37 : COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
+ ---> Using cache
+ ---> cf307388109b
+Step 23/37 : COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 0167b8bb1eea
+Step 24/37 : COPY bin/create-documentation.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> af5fc36c9ff2
+Step 25/37 : COPY bin/create-library-documentation.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> fa354df09c82
+Step 26/37 : COPY bin/create-report-index-html.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 8f62b085bd73
+Step 27/37 : COPY bin/system-status.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 726feda3c14b
+Step 28/37 : COPY bin/util.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 79ec97e2c11c
+Step 29/37 : RUN ls -la /usr/bin
+ ---> Using cache
+ ---> 6267e3aead27
+Step 30/37 : RUN ls -la /usr/lib
+ ---> Using cache
+ ---> 6fca591f7a9e
+Step 31/37 : RUN ls -la /usr/bin/chromium-browser
+ ---> Running in c4e29a2b4e3b
+lrwxrwxrwx    1 root     root            38 Oct 27 16:57 /usr/bin/chromium-browser -> /usr/lib/chromium/chromium-launcher.sh
+Removing intermediate container c4e29a2b4e3b
+ ---> 6de9e1241918
+Step 32/37 : RUN mv /usr/bin/chromium-browser /usr/lib64/chromium-browser/chromium-browser
+ ---> Running in dd7d0290ea62
+mv: can't rename '/usr/bin/chromium-browser': No such file or directory
+The command '/bin/sh -c mv /usr/bin/chromium-browser /usr/lib64/chromium-browser/chromium-browser' returned a non-zero code: 1
+---------------------------------------------------------------------------------------------
+Docker build finished
+Docker Image name: 'ckleinhuis/ufp-robotframework'
+Example usage of this Docker Image:
+
+Step 1: Create docker-compose.yml
+
+version: '3'
+services:
+  roboter_chrome:
+    image: ckleinhuis/ufp-robotframework:latest
+     #
+     # shared memory size configuration
+     # even headless chrome needs some swapping memory, this is configured here
+     # and set to a reasonable amount if browser crashes without other reasons
+     # checking the free memory is quite an issue
+     #
+    shm_size: '4gb'
+    volumes:
+      - ./reports:/opt/robotframework/reports
+      - ./test:/opt/robotframework/tests
+    environment:
+      - LOG_LEVEL=vvv
+
+Step 2: execute 'docker-compose up'
+---------------------------------------------------------------------------------------------
+ckleinhuis@ubuntu-xenial:/Project/ufp-robotframework$ sudo ./build.sh
+Sending build context to Docker daemon  13.39MB
+Step 1/38 : FROM alpine
+ ---> 196d12cf6ab1
+Step 2/38 : MAINTAINER Christian Kleinhuis <trifox@users.noreply.github.com>
+ ---> Using cache
+ ---> ba3246a4b465
+Step 3/38 : LABEL description Library rich Robot Framework in Docker Chrome Headless.
+ ---> Using cache
+ ---> 1a2f3cec24f4
+Step 4/38 : VOLUME /opt/robotframework/reports
+ ---> Using cache
+ ---> 54563f52fccc
+Step 5/38 : VOLUME /opt/robotframework/tests
+ ---> Using cache
+ ---> 0a7d0de20185
+Step 6/38 : RUN apk update && apk upgrade && apk add --no-cache                 chromium-chromedriver                chromium                py2-pip         bash    && apk del --purge
+ ---> Using cache
+ ---> 38e2f9efa9b4
+Step 7/38 : RUN pip install     robotframework==3.0.4   robotframework-jsonlibrary==0.2      robotframework-csvlibrary==0.0.2        robotframework-yamllibrary==0.2.8   robotframework-jsonschemalibrary==1.0    robotframework-jsonvalidator==1.0.1     robotframework-databaselibrary==1.1.1        robotframework-mongodblibrary==0.3.4    pg8000==1.12.3       PyMySQL==0.8.1  robotframework-apachetomcat==1.0.1      robotframework-imaplibrary==0.3.0    robotframework-kafkalibrary==0.0.1      robotframework-rabbitmq==1.0.1       robotframework-redislibrary==0.1        robotframework-zookeeperlibrary==0.1.4       robotframework-ftplibrary==1.6  robotframework-react==1.0.0a1   robotframework-jmeterlibrary==1.2    robotframework-webpack==1.1.3   robotframework-advancedlogging==1.0.1        robotframework-async==1.0.3     robotframework-difflibrary==0.1.0    robotframework-faker==4.2.0     robotframework-lint==0.9        robotframework-requests==0.5.0       robotframework-stringformat==0.1.8      robotframework-randomlibrary==0.0.2  robotframework-seleniumlibrary==3.2.0   robotframework-websocketclient==1.3.0
+ ---> Using cache
+ ---> bbaefc05a942
+Step 8/38 : RUN pip list --outdated
+ ---> Using cache
+ ---> ec3a5c9eeeb6
+Step 9/38 : ENV ROBOT_PARAMS '--loglevel TRACE'
+ ---> Using cache
+ ---> 552b3cb4323d
+Step 10/38 : ENV SCREEN_COLOUR_DEPTH 24
+ ---> Using cache
+ ---> d9a42e72d308
+Step 11/38 : ENV SCREEN_WIDTH 1920
+ ---> Using cache
+ ---> b142641b4f9a
+Step 12/38 : ENV SCREEN_HEIGHT 1080
+ ---> Using cache
+ ---> fedae15c8cf8
+Step 13/38 : ENV LOG_LEVEL x
+ ---> Using cache
+ ---> 2ca3104880be
+Step 14/38 : ENV BROWSER chrome
+ ---> Using cache
+ ---> 6a3e04ce0132
+Step 15/38 : ENV ROBOT_INCLUDE_TAG ''
+ ---> Using cache
+ ---> 85d8dbea56ec
+Step 16/38 : ENV ROBOT_EXCLUDE_TAG ''
+ ---> Using cache
+ ---> 24d4cdb3a9db
+Step 17/38 : ENV ROBOT_CRITICAL_TAG 'critical'
+ ---> Using cache
+ ---> b1f7c7acd4ee
+Step 18/38 : ENV ROBOT_NONCRITICAL_TAG 'noncritical'
+ ---> Using cache
+ ---> 652e0a6574d5
+Step 19/38 : ENV ROBOT_LOGLEVEL 'INFO'
+ ---> Using cache
+ ---> 1e941153c8f9
+Step 20/38 : ENV ROBOT_OPTIONS ''
+ ---> Using cache
+ ---> 7c8c430865e0
+Step 21/38 : COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
+ ---> Using cache
+ ---> c42df1a35db8
+Step 22/38 : COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
+ ---> Using cache
+ ---> cf307388109b
+Step 23/38 : COPY bin/run-tests-in-virtual-screen.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 0167b8bb1eea
+Step 24/38 : COPY bin/create-documentation.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> af5fc36c9ff2
+Step 25/38 : COPY bin/create-library-documentation.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> fa354df09c82
+Step 26/38 : COPY bin/create-report-index-html.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 8f62b085bd73
+Step 27/38 : COPY bin/system-status.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 726feda3c14b
+Step 28/38 : COPY bin/util.sh /opt/robotframework/bin/
+ ---> Using cache
+ ---> 79ec97e2c11c
+Step 29/38 : RUN echo "Hey"
+ ---> Running in a7350a2d67af
+Hey
+Removing intermediate container a7350a2d67af
+ ---> ad396e31f822
+Step 30/38 : RUN ls -la /usr/bin
+ ---> Running in ba249f304a50
+total 5156
+drwxr-xr-x    1 root     root          4096 Oct 27 17:01 .
+drwxr-xr-x    1 root     root          4096 Oct 27 17:01 ..
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 [ -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 [[ -> /bin/busybox
+-rwxr-xr-x    1 root     root         26600 May  1 17:14 aserver
+-rwxr-xr-x    1 root     root         18376 May  1 15:56 asn1Coding
+-rwxr-xr-x    1 root     root         22472 May  1 15:56 asn1Decoding
+-rwxr-xr-x    1 root     root         18376 May  1 15:56 asn1Parser
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 awk -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 basename -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 beep -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 blkdiscard -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 bunzip2 -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 bzcat -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 bzip2 -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 cal -> /bin/busybox
+-rwxr-xr-x    1 root     root           225 Oct 27 17:01 chardetect
+lrwxrwxrwx    1 root     root            30 Oct 27 16:58 chromedriver -> /usr/lib/chromium/chromedriver
+lrwxrwxrwx    1 root     root            38 Oct 27 16:57 chromium-browser -> /usr/lib/chromium/chromium-launcher.sh
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 chvt -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 cksum -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 clear -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 cmp -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 comm -> /bin/busybox
+-rwxr-xr-x    1 root     root           387 Oct 27 17:01 coverage
+-rwxr-xr-x    1 root     root           395 Oct 27 17:01 coverage-2.7
+-rwxr-xr-x    1 root     root           389 Oct 27 17:01 coverage2
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 cpio -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 crontab -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 cryptpw -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 cut -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 dc -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 deallocvt -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 diff -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 dirname -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 dos2unix -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 du -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 dumpleases -> /bin/busybox
+-rwxr-xr-x    1 root     root         14112 Jun 19 11:17 dumpsexp
+-rwxr-xr-x    1 root     root           451 May  8 11:50 easy_install-2.7
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 eject -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 env -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 expand -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 expr -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 factor -> /bin/busybox
+-rwxr-xr-x    1 root     root           254 Oct 27 17:01 faker
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 fallocate -> /bin/busybox
+-rwxr-xr-x    1 root     root         14112 May  1 12:31 fc-cache
+-rwxr-xr-x    1 root     root         14112 May  1 12:31 fc-cat
+-rwxr-xr-x    1 root     root         10016 May  1 12:31 fc-list
+-rwxr-xr-x    1 root     root         10016 May  1 12:31 fc-match
+-rwxr-xr-x    1 root     root         10016 May  1 12:31 fc-pattern
+-rwxr-xr-x    1 root     root         10016 May  1 12:31 fc-query
+-rwxr-xr-x    1 root     root         10016 May  1 12:31 fc-scan
+-rwxr-xr-x    1 root     root         10016 May  1 12:31 fc-validate
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 find -> /bin/busybox
+-rwxr-xr-x    1 root     root        181216 May 14 06:15 flac
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 flock -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 fold -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 free -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 fuser -> /bin/busybox
+-rwxr-xr-x    1 root     root           384 Oct 27 17:01 futurize
+-rwxr-xr-x    1 root     root         18312 May  1 15:22 gapplication
+-rwxr-xr-x    1 root     root         18560 May  1 11:26 gdbm_dump
+-rwxr-xr-x    1 root     root         18816 May  1 11:26 gdbm_load
+-rwxr-xr-x    1 root     root         88352 May  1 11:26 gdbmtool
+-rwxr-xr-x    1 root     root         38784 May  1 15:22 gdbus
+-rwxr-xr-x    1 root     root         10144 May 24 20:03 gdk-pixbuf-csource
+-rwxr-xr-x    1 root     root         10128 May 24 20:03 gdk-pixbuf-pixdata
+-rwxr-xr-x    1 root     root         10128 May 24 20:03 gdk-pixbuf-query-loaders
+-rwxr-xr-x    1 root     root         14232 May 24 20:03 gdk-pixbuf-thumbnailer
+-rwxr-xr-x    1 root     root         31496 Jun 19 07:48 getconf
+-rwxr-xr-x    1 root     root         44792 Jun 19 07:48 getent
+-rwxr-xr-x    1 root     root         71624 May  1 15:22 gio
+-rwxr-xr-x    1 root     root         10048 May  1 15:22 gio-querymodules
+-rwxr-xr-x    1 root     root         39016 May  1 15:22 glib-compile-schemas
+-rwxr-xr-x    1 root     root         26664 May  8 10:34 gpg-error
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 groups -> /bin/busybox
+-rwxr-xr-x    1 root     root         22400 May  1 15:22 gsettings
+-rwxr-xr-x    1 root     root         22856 May 24 20:08 gtk-builder-tool
+-rwxr-xr-x    1 root     root         14272 May 24 20:08 gtk-encode-symbolic-svg
+-rwxr-xr-x    1 root     root         10208 May 24 20:08 gtk-launch
+-rwxr-xr-x    1 root     root         14224 May 24 20:08 gtk-query-immodules-3.0
+-rwxr-xr-x    1 root     root         10048 May 24 20:08 gtk-query-settings
+-rwxr-xr-x    1 root     root         26816 May  9 07:27 gtk-update-icon-cache
+-rwxr-xr-x    1 root     root       1838496 May 24 20:08 gtk3-demo
+-rwxr-xr-x    1 root     root       1530856 May 24 20:08 gtk3-demo-application
+-rwxr-xr-x    1 root     root         63696 May 24 20:08 gtk3-icon-browser
+-rwxr-xr-x    1 root     root        172440 May 24 20:08 gtk3-widget-factory
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 hd -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 head -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 hexdump -> /bin/busybox
+-rwxr-xr-x    1 root     root         14528 Jun 19 11:17 hmac256
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 hostid -> /bin/busybox
+-rwxr-xr-x    1 root     root         20544 Jun 19 07:48 iconv
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 id -> /bin/busybox
+-rwxr-xr-x    1 root     root            93 Aug 16 14:17 idle
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 install -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 ipcrm -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 ipcs -> /bin/busybox
+-rwxr-xr-x    1 root     root           402 Oct 27 17:01 jsonpath.py
+-rwxr-xr-x    1 root     root           217 Oct 27 17:01 jsonschema
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 killall -> /bin/busybox
+lrwxrwxrwx    1 root     root            29 Sep 11 20:23 ldd -> ../../lib/ld-musl-x86_64.so.1
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 less -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 logger -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 lsof -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 lsusb -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 lzcat -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 lzma -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 lzopcat -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 md5sum -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 mesg -> /bin/busybox
+-rwxr-xr-x    1 root     root         97896 May 14 06:15 metaflac
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 microcom -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 mkfifo -> /bin/busybox
+-rwxr-xr-x    1 root     root            65 May  1 15:18 mkfontdir
+-rwxr-xr-x    1 root     root         35056 May  1 15:17 mkfontscale
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 mkpasswd -> /bin/busybox
+-rwxr-xr-x    1 root     root         14264 Jun 19 11:17 mpicalc
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 nc -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 nl -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 nmeter -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 nohup -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 nproc -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 nsenter -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 nslookup -> /bin/busybox
+-rwxr-xr-x    1 root     root           219 Oct 27 17:01 objectpath
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 od -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 openvt -> /bin/busybox
+-rwxr-xr-x    1 root     root         30512 May  1 15:57 p11-kit
+-rwxr-xr-x    1 root     root         47088 May  1 15:52 pango-view
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 passwd -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 paste -> /bin/busybox
+-rwxr-xr-x    1 root     root           388 Oct 27 17:01 pasteurize
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 patch -> /bin/busybox
+-rwxr-xr-x    1 root     root           215 Oct 27 17:01 pbr
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 pgrep -> /bin/busybox
+-rwxr-xr-x    1 root     root           365 May 15 12:35 pip
+-rwxr-xr-x    1 root     root           367 May 15 12:35 pip2
+-rwxr-xr-x    1 root     root           371 May 15 12:35 pip2.7
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 pkill -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 pmap -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 printf -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 pscan -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 pstree -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 pwdx -> /bin/busybox
+-rwxr-xr-x    1 root     root            80 Oct 27 17:01 pybot
+-rwxr-xr-x    1 root     root            78 Aug 16 14:17 pydoc
+lrwxrwxrwx    1 root     root             7 Oct 27 16:58 python -> python2
+lrwxrwxrwx    1 root     root             9 Oct 27 16:58 python2 -> python2.7
+-rwxr-xr-x    1 root     root          5872 Aug 16 14:18 python2.7
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 readlink -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 realpath -> /bin/busybox
+-rwxr-xr-x    1 root     root           202 Oct 27 17:01 rebot
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 renice -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 reset -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 resize -> /bin/busybox
+-rwxr-xr-x    1 root     root           410 Oct 27 17:01 rflint
+-rwxr-xr-x    1 root     root           198 Oct 27 17:01 robot
+-rwxr-xr-x    1 root     root         79688 May  9 09:14 scanelf
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 seq -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 setkeycodes -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 setsid -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 sha1sum -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 sha256sum -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 sha3sum -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 sha512sum -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 showkey -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 shred -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 shuf -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 smemcap -> /bin/busybox
+-rwxr-xr-x    1 root     root         18541 Aug 16 14:17 smtpd.py
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 sort -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 split -> /bin/busybox
+-rwxr-xr-x    1 root     root          9936 Jul 17 15:22 ssl_client
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 strings -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 sum -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 tac -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 tail -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 tee -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 test -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 time -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 timeout -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 top -> /bin/busybox
+-rwxr-xr-x    1 root     root           212 Oct 27 17:01 tox
+-rwxr-xr-x    1 root     root           218 Oct 27 17:01 tox-quickstart
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 tr -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 traceroute -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 traceroute6 -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 truncate -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 tty -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 ttysize -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 udhcpc6 -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 unexpand -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 uniq -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 unix2dos -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 unlink -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 unlzma -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 unlzop -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 unshare -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 unxz -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 unzip -> /bin/busybox
+-rwxr-xr-x    1 root     root         47160 May  1 15:52 update-mime-database
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 uptime -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 uudecode -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 uuencode -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 vi -> /bin/busybox
+-rwxr-xr-x    1 root     root           213 Oct 27 17:01 virtualenv
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 vlock -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 volname -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 wc -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 wget -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 which -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 whoami -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 whois -> /bin/busybox
+-rwxr-xr-x    1 root     root          5902 Oct 27 17:01 wsdump.py
+-rw-r--r--    1 root     root          7821 Oct 27 17:01 wsdump.pyc
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 xargs -> /bin/busybox
+-rwxr-xr-x    1 root     root         22304 May  1 11:23 xmlwf
+-rwxr-xr-x    1 root     root         22464 Jun 17 12:27 xsltproc
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 xxd -> /bin/busybox
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 xzcat -> /bin/busybox
+-rwxr-xr-x    1 root     root         26400 May  8 10:34 yat2m
+lrwxrwxrwx    1 root     root            12 Sep 11 20:23 yes -> /bin/busybox
+Removing intermediate container ba249f304a50
+ ---> f75a0f971b3c
+Step 31/38 : RUN ls -la /usr/lib
+ ---> Running in 792b52d24437
+total 40716
+drwxr-xr-x    1 root     root          4096 Oct 27 16:58 .
+drwxr-xr-x    1 root     root          4096 Oct 27 17:01 ..
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 bash
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 cairo
+drwxr-xr-x    3 root     root          4096 Oct 27 16:58 chromium
+drwxr-xr-x    3 root     root          4096 Oct 27 16:57 gdk-pixbuf-2.0
+drwxr-xr-x    3 root     root          4096 Oct 27 16:57 gio
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 girepository-1.0
+drwxr-xr-x    3 root     root          4096 Oct 27 16:57 gnome-settings-daemon-3.0
+drwxr-xr-x    3 root     root          4096 Oct 27 16:57 gtk-2.0
+drwxr-xr-x    3 root     root          4096 Oct 27 16:57 gtk-3.0
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libFLAC++.so.6 -> libFLAC++.so.6.3.0
+-rwxr-xr-x    1 root     root        100304 May 14 06:15 libFLAC++.so.6.3.0
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libFLAC.so.8 -> libFLAC.so.8.3.0
+-rwxr-xr-x    1 root     root        206608 May 14 06:15 libFLAC.so.8.3.0
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libX11-xcb.so.1 -> libX11-xcb.so.1.0.0
+-rwxr-xr-x    1 root     root          5632 Oct  8 11:56 libX11-xcb.so.1.0.0
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libX11.so.6 -> libX11.so.6.3.0
+-rwxr-xr-x    1 root     root       1190000 Oct  8 11:56 libX11.so.6.3.0
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libXau.so.6 -> libXau.so.6.0.0
+-rwxr-xr-x    1 root     root          9864 May  1 12:25 libXau.so.6.0.0
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libXcomposite.so.1 -> libXcomposite.so.1.0.0
+-rwxr-xr-x    1 root     root          9864 May  1 16:40 libXcomposite.so.1.0.0
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libXcursor.so.1 -> libXcursor.so.1.0.2
+-rwxr-xr-x    1 root     root         38536 May  1 16:40 libXcursor.so.1.0.2
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libXdamage.so.1 -> libXdamage.so.1.1.0
+-rwxr-xr-x    1 root     root          9864 May  1 15:30 libXdamage.so.1.1.0
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libXdmcp.so.6 -> libXdmcp.so.6.0.0
+-rwxr-xr-x    1 root     root         22312 May  1 12:26 libXdmcp.so.6.0.0
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libXext.so.6 -> libXext.so.6.4.0
+-rwxr-xr-x    1 root     root         64424 May  1 15:20 libXext.so.6.4.0
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libXfixes.so.3 -> libXfixes.so.3.1.0
+-rwxr-xr-x    1 root     root         22088 May  1 15:30 libXfixes.so.3.1.0
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libXft.so.2 -> libXft.so.2.3.2
+-rwxr-xr-x    1 root     root         75760 May  1 12:31 libXft.so.2.3.2
+lrwxrwxrwx    1 root     root            14 Oct 27 16:57 libXi.so.6 -> libXi.so.6.1.0
+-rwxr-xr-x    1 root     root         59208 May  1 16:40 libXi.so.6.1.0
+lrwxrwxrwx    1 root     root            20 Oct 27 16:57 libXinerama.so.1 -> libXinerama.so.1.0.0
+-rwxr-xr-x    1 root     root          9984 May  1 17:01 libXinerama.so.1.0.0
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libXrandr.so.2 -> libXrandr.so.2.2.0
+-rwxr-xr-x    1 root     root         38648 May  1 16:40 libXrandr.so.2.2.0
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libXrender.so.1 -> libXrender.so.1.3.0
+-rwxr-xr-x    1 root     root         38808 May  1 12:31 libXrender.so.1.3.0
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libXss.so.1 -> libXss.so.1.0.0
+-rwxr-xr-x    1 root     root          9984 May  1 21:53 libXss.so.1.0.0
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libXtst.so.6 -> libXtst.so.6.1.0
+-rwxr-xr-x    1 root     root         22368 May  1 17:36 libXtst.so.6.1.0
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libasound.so.2 -> libasound.so.2.0.0
+-rwxr-xr-x    1 root     root        948416 May  1 17:14 libasound.so.2.0.0
+lrwxrwxrwx    1 root     root            23 Oct 27 16:57 libatk-1.0.so.0 -> libatk-1.0.so.0.22610.1
+-rwxr-xr-x    1 root     root        145216 May  1 15:52 libatk-1.0.so.0.22610.1
+lrwxrwxrwx    1 root     root            26 Oct 27 16:57 libatk-bridge-2.0.so.0 -> libatk-bridge-2.0.so.0.0.0
+-rwxr-xr-x    1 root     root        181856 May  1 17:37 libatk-bridge-2.0.so.0.0.0
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libatomic.so.1 -> libatomic.so.1.2.0
+-rwxr-xr-x    1 root     root         22152 Sep 28 13:16 libatomic.so.1.2.0
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libatspi.so.0 -> libatspi.so.0.0.1
+-rwxr-xr-x    1 root     root        186584 May  1 17:36 libatspi.so.0.0.1
+lrwxrwxrwx    1 root     root            24 Oct 27 16:57 libavahi-client.so.3 -> libavahi-client.so.3.2.9
+-rwxr-xr-x    1 root     root         63608 May 23 22:17 libavahi-client.so.3.2.9
+lrwxrwxrwx    1 root     root            24 Oct 27 16:57 libavahi-common.so.3 -> libavahi-common.so.3.5.3
+-rwxr-xr-x    1 root     root         47184 May 23 22:17 libavahi-common.so.3.5.3
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libbsd.so.0 -> libbsd.so.0.8.6
+-rwxr-xr-x    1 root     root         71872 May  1 12:26 libbsd.so.0.8.6
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libbz2.so.1 -> libbz2.so.1.0.6
+-rwxr-xr-x    1 root     root         53928 May  1 09:05 libbz2.so.1.0.6
+lrwxrwxrwx    1 root     root            30 Oct 27 16:57 libcairo-gobject.so.2 -> libcairo-gobject.so.2.11400.12
+-rwxr-xr-x    1 root     root         73216 May  1 15:27 libcairo-gobject.so.2.11400.12
+lrwxrwxrwx    1 root     root            41 Oct 27 16:57 libcairo-script-interpreter.so.2 -> libcairo-script-interpreter.so.2.11400.12
+-rwxr-xr-x    1 root     root        119584 May  1 15:27 libcairo-script-interpreter.so.2.11400.12
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libcairo.so.2 -> libcairo.so.2.11400.12
+-rwxr-xr-x    1 root     root        924424 May  1 15:27 libcairo.so.2.11400.12
+lrwxrwxrwx    1 root     root            25 Sep 11 20:23 libcrypto.so.43 -> ../../lib/libcrypto.so.43
+lrwxrwxrwx    1 root     root            29 Sep 11 20:23 libcrypto.so.43.0.1 -> ../../lib/libcrypto.so.43.0.1
+-rwxr-xr-x    1 root     root        509848 May  9 07:24 libcups.so.2
+-rwxr-xr-x    1 root     root         51504 May  9 07:24 libcupscgi.so.1
+-rwxr-xr-x    1 root     root         30344 May  9 07:24 libcupsimage.so.2
+-rwxr-xr-x    1 root     root         22152 May  9 07:24 libcupsmime.so.1
+-rwxr-xr-x    1 root     root        108568 May  9 07:24 libcupsppdc.so.1
+lrwxrwxrwx    1 root     root            20 Oct 27 16:57 libdbus-1.so.3 -> libdbus-1.so.3.14.14
+-rwxr-xr-x    1 root     root        284688 May  1 15:55 libdbus-1.so.3.14.14
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libepoxy.so.0 -> libepoxy.so.0.0.0
+-rwxr-xr-x    1 root     root        991752 May  9 13:37 libepoxy.so.0.0.0
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libevent-2.1.so.6 -> libevent-2.1.so.6.0.2
+-rwxr-xr-x    1 root     root        301280 May  1 11:29 libevent-2.1.so.6.0.2
+lrwxrwxrwx    1 root     root            26 Oct 27 16:57 libevent_core-2.1.so.6 -> libevent_core-2.1.so.6.0.2
+-rwxr-xr-x    1 root     root        186208 May  1 11:29 libevent_core-2.1.so.6.0.2
+lrwxrwxrwx    1 root     root            27 Oct 27 16:57 libevent_extra-2.1.so.6 -> libevent_extra-2.1.so.6.0.2
+-rwxr-xr-x    1 root     root        129120 May  1 11:29 libevent_extra-2.1.so.6.0.2
+lrwxrwxrwx    1 root     root            29 Oct 27 16:57 libevent_openssl-2.1.so.6 -> libevent_openssl-2.1.so.6.0.2
+-rwxr-xr-x    1 root     root         22232 May  1 11:29 libevent_openssl-2.1.so.6.0.2
+lrwxrwxrwx    1 root     root            30 Oct 27 16:57 libevent_pthreads-2.1.so.6 -> libevent_pthreads-2.1.so.6.0.2
+-rwxr-xr-x    1 root     root          9920 May  1 11:29 libevent_pthreads-2.1.so.6.0.2
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libexpat.so.1 -> libexpat.so.1.6.7
+-rwxr-xr-x    1 root     root        132824 May  1 11:23 libexpat.so.1.6.7
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libexslt.so.0 -> libexslt.so.0.8.20
+-rwxr-xr-x    1 root     root         75568 Jun 17 12:27 libexslt.so.0.8.20
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 libffi-3.2.1
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libffi.so.6 -> libffi.so.6.0.4
+-rwxr-xr-x    1 root     root         30488 May  1 11:27 libffi.so.6.0.4
+lrwxrwxrwx    1 root     root            23 Oct 27 16:57 libfontconfig.so.1 -> libfontconfig.so.1.10.1
+-rwxr-xr-x    1 root     root        247968 May  1 12:31 libfontconfig.so.1.10.1
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libfontenc.so.1 -> libfontenc.so.1.0.0
+-rwxr-xr-x    1 root     root         25928 May  1 15:17 libfontenc.so.1.0.0
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libformw.so.6 -> libformw.so.6.1
+-rwxr-xr-x    1 root     root         60368 Sep  6 06:14 libformw.so.6.1
+-rw-r--r--    1 root     root           899 Oct  2 13:18 libfreebl3.chk
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libfreebl3.so -> libfreebl3.so.36
+-rwxr-xr-x    1 root     root        534472 Oct  2 13:18 libfreebl3.so.36
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libfreetype.so.6 -> libfreetype.so.6.16.1
+-rwxr-xr-x    1 root     root        719032 Jun 17 12:33 libfreetype.so.6.16.1
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libgailutil-3.so.0 -> libgailutil-3.so.0.0.0
+-rwxr-xr-x    1 root     root         30560 May 24 20:08 libgailutil-3.so.0.0.0
+-rw-r--r--    1 root     root         71472 Sep 28 13:16 libgcc_s.so.1
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libgcrypt.so.20 -> libgcrypt.so.20.2.3
+-rwxr-xr-x    1 root     root       1078080 Jun 19 11:17 libgcrypt.so.20.2.3
+lrwxrwxrwx    1 root     root            16 Oct 27 16:58 libgdbm.so.4 -> libgdbm.so.4.0.0
+-rwxr-xr-x    1 root     root         46848 May  1 11:26 libgdbm.so.4.0.0
+lrwxrwxrwx    1 root     root            23 Oct 27 16:58 libgdbm_compat.so.4 -> libgdbm_compat.so.4.0.0
+-rwxr-xr-x    1 root     root          9864 May  1 11:26 libgdbm_compat.so.4.0.0
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libgdk-3.so.0 -> libgdk-3.so.0.2200.30
+-rwxr-xr-x    1 root     root        871088 May 24 20:08 libgdk-3.so.0.2200.30
+lrwxrwxrwx    1 root     root            29 Oct 27 16:57 libgdk_pixbuf-2.0.so.0 -> libgdk_pixbuf-2.0.so.0.3611.0
+-rwxr-xr-x    1 root     root        120664 May 24 20:03 libgdk_pixbuf-2.0.so.0.3611.0
+lrwxrwxrwx    1 root     root            34 Oct 27 16:57 libgdk_pixbuf_xlib-2.0.so.0 -> libgdk_pixbuf_xlib-2.0.so.0.3611.0
+-rwxr-xr-x    1 root     root         63344 May 24 20:03 libgdk_pixbuf_xlib-2.0.so.0.3611.0
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libgio-2.0.so.0 -> libgio-2.0.so.0.5600.1
+-rwxr-xr-x    1 root     root       1502744 May  1 15:22 libgio-2.0.so.0.5600.1
+lrwxrwxrwx    1 root     root            23 Oct 27 16:57 libglib-2.0.so.0 -> libglib-2.0.so.0.5600.1
+-rwxr-xr-x    1 root     root        986816 May  1 15:22 libglib-2.0.so.0.5600.1
+lrwxrwxrwx    1 root     root            26 Oct 27 16:57 libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.5600.1
+-rwxr-xr-x    1 root     root         14168 May  1 15:22 libgmodule-2.0.so.0.5600.1
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libgmp.so.10 -> libgmp.so.10.3.2
+-rwxr-xr-x    1 root     root        407264 May  1 10:34 libgmp.so.10.3.2
+lrwxrwxrwx    1 root     root            20 Oct 27 16:57 libgnutls.so.30 -> libgnutls.so.30.20.2
+-rwxr-xr-x    1 root     root       1269304 May  9 07:21 libgnutls.so.30.20.2
+lrwxrwxrwx    1 root     root            26 Oct 27 16:57 libgobject-2.0.so.0 -> libgobject-2.0.so.0.5600.1
+-rwxr-xr-x    1 root     root        257992 May  1 15:22 libgobject-2.0.so.0.5600.1
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libgpg-error.so.0 -> libgpg-error.so.0.24.1
+-rwxr-xr-x    1 root     root        108696 May  8 10:34 libgpg-error.so.0.24.1
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libgraphite2.so.3 -> libgraphite2.so.3.0.1
+-rwxr-xr-x    1 root     root        128728 Jun 18 09:51 libgraphite2.so.3.0.1
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libgtestutil.so -> libgtestutil.so.36
+-rwxr-xr-x    1 root     root        317480 Oct  2 13:18 libgtestutil.so.36
+lrwxrwxrwx    1 root     root            26 Oct 27 16:57 libgthread-2.0.so.0 -> libgthread-2.0.so.0.5600.1
+-rwxr-xr-x    1 root     root          5888 May  1 15:22 libgthread-2.0.so.0.5600.1
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libgtk-3.so.0 -> libgtk-3.so.0.2200.30
+-rwxr-xr-x    1 root     root       6709232 May 24 20:08 libgtk-3.so.0.2200.30
+lrwxrwxrwx    1 root     root            32 Oct 27 16:57 libharfbuzz-gobject.so.0 -> libharfbuzz-gobject.so.0.10706.0
+-rwxr-xr-x    1 root     root         55000 Jun 21 16:41 libharfbuzz-gobject.so.0.10706.0
+lrwxrwxrwx    1 root     root            31 Oct 27 16:57 libharfbuzz-subset.so.0 -> libharfbuzz-subset.so.0.10706.0
+-rwxr-xr-x    1 root     root         40592 Jun 21 16:41 libharfbuzz-subset.so.0.10706.0
+lrwxrwxrwx    1 root     root            24 Oct 27 16:57 libharfbuzz.so.0 -> libharfbuzz.so.0.10706.0
+-rwxr-xr-x    1 root     root        481208 Jun 21 16:41 libharfbuzz.so.0.10706.0
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libhogweed.so.4 -> libhogweed.so.4.4
+-rw-r--r--    1 root     root        210880 Jun 15 19:25 libhogweed.so.4.4
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libintl.so.8 -> libintl.so.8.1.5
+-rwxr-xr-x    1 root     root         55008 May  1 11:47 libintl.so.8.1.5
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libjpeg.so.8 -> libjpeg.so.8.1.2
+-rwxr-xr-x    1 root     root        386936 Sep 25 11:18 libjpeg.so.8.1.2
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libmenuw.so.6 -> libmenuw.so.6.1
+-rwxr-xr-x    1 root     root         26584 Sep  6 06:14 libmenuw.so.6.1
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libncursesw.so.6 -> libncursesw.so.6.1
+-rwxr-xr-x    1 root     root        358952 Sep  6 06:14 libncursesw.so.6.1
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libnettle.so.6 -> libnettle.so.6.4
+-rw-r--r--    1 root     root        214896 Jun 15 19:25 libnettle.so.6.4
+-rwxr-xr-x    1 root     root        246112 May 21 17:00 libnspr4.so
+lrwxrwxrwx    1 root     root            13 Oct 27 16:57 libnss3.so -> libnss3.so.36
+-rwxr-xr-x    1 root     root       1225624 Oct  2 13:18 libnss3.so.36
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libnssckbi.so -> libnssckbi.so.36
+-rwxr-xr-x    1 root     root        548872 Oct  2 13:18 libnssckbi.so.36
+-rw-r--r--    1 root     root           899 Oct  2 13:18 libnssdbm3.chk
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libnssdbm3.so -> libnssdbm3.so.36
+-rwxr-xr-x    1 root     root        137168 Oct  2 13:18 libnssdbm3.so.36
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libnssutil3.so -> libnssutil3.so.36
+-rwxr-xr-x    1 root     root        194576 Oct  2 13:18 libnssutil3.so.36
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libogg.so.0 -> libogg.so.0.8.3
+-rwxr-xr-x    1 root     root         22152 May  1 17:36 libogg.so.0.8.3
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libopus.so.0 -> libopus.so.0.6.1
+-rwxr-xr-x    1 root     root        341720 May  1 19:37 libopus.so.0.6.1
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libp11-kit.so.0 -> libp11-kit.so.0.3.0
+-rwxr-xr-x    1 root     root       1129936 May  1 15:57 libp11-kit.so.0.3.0
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libpanelw.so.6 -> libpanelw.so.6.1
+-rwxr-xr-x    1 root     root         13888 Sep  6 06:14 libpanelw.so.6.1
+lrwxrwxrwx    1 root     root            25 Oct 27 16:57 libpango-1.0.so.0 -> libpango-1.0.so.0.4000.14
+-rwxr-xr-x    1 root     root        276184 May  1 15:52 libpango-1.0.so.0.4000.14
+lrwxrwxrwx    1 root     root            30 Oct 27 16:57 libpangocairo-1.0.so.0 -> libpangocairo-1.0.so.0.4000.14
+-rwxr-xr-x    1 root     root         46784 May  1 15:52 libpangocairo-1.0.so.0.4000.14
+lrwxrwxrwx    1 root     root            28 Oct 27 16:57 libpangoft2-1.0.so.0 -> libpangoft2-1.0.so.0.4000.14
+-rwxr-xr-x    1 root     root         79496 May  1 15:52 libpangoft2-1.0.so.0.4000.14
+lrwxrwxrwx    1 root     root            28 Oct 27 16:57 libpangoxft-1.0.so.0 -> libpangoxft-1.0.so.0.4000.14
+-rwxr-xr-x    1 root     root         30344 May  1 15:52 libpangoxft-1.0.so.0.4000.14
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libpcre.so.1 -> libpcre.so.1.2.10
+-rwxr-xr-x    1 root     root        370432 May  1 15:21 libpcre.so.1.2.10
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libpcreposix.so.0 -> libpcreposix.so.0.0.6
+-rwxr-xr-x    1 root     root          9944 May  1 15:21 libpcreposix.so.0.0.6
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libpixman-1.so.0 -> libpixman-1.so.0.34.0
+-rwxr-xr-x    1 root     root        587768 Jun 25 15:39 libpixman-1.so.0.34.0
+-rwxr-xr-x    1 root     root         18168 May 21 17:00 libplc4.so
+-rwxr-xr-x    1 root     root         14104 May 21 17:00 libplds4.so
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libpng16.so.16 -> libpng16.so.16.34.0
+-rwxr-xr-x    1 root     root        186232 May  1 12:30 libpng16.so.16.34.0
+-r-xr-xr-x    1 root     root       1585536 Aug 16 14:18 libpython2.7.so.1.0
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libre2.so.0 -> libre2.so.0.0.0
+-rwxr-xr-x    1 root     root        272432 May 20 23:49 libre2.so.0.0.0
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libreadline.so.7 -> libreadline.so.7.0
+-r-xr-xr-x    1 root     root        268840 May  1 09:40 libreadline.so.7.0
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libsmime3.so -> libsmime3.so.36
+-rwxr-xr-x    1 root     root        162368 Oct  2 13:18 libsmime3.so.36
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libsnappy.so.1 -> libsnappy.so.1.3.1
+-rwxr-xr-x    1 root     root         34880 May 24 21:13 libsnappy.so.1.3.1
+-rw-r--r--    1 root     root           899 Oct  2 13:18 libsoftokn3.chk
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libsoftokn3.so -> libsoftokn3.so.36
+-rwxr-xr-x    1 root     root        256952 Oct  2 13:18 libsoftokn3.so.36
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libsqlite3.so.0 -> libsqlite3.so.0.8.6
+-rwxr-xr-x    1 root     root        853544 Jun 12 13:24 libsqlite3.so.0.8.6
+lrwxrwxrwx    1 root     root            22 Sep 11 20:23 libssl.so.45 -> ../../lib/libssl.so.45
+lrwxrwxrwx    1 root     root            26 Sep 11 20:23 libssl.so.45.0.1 -> ../../lib/libssl.so.45.0.1
+lrwxrwxrwx    1 root     root            13 Oct 27 16:57 libssl3.so -> libssl3.so.36
+-rwxr-xr-x    1 root     root        330296 Oct  2 13:18 libssl3.so.36
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libstdc++.so.6 -> libstdc++.so.6.0.22
+-rwxr-xr-x    1 root     root       1374664 Sep 28 13:16 libstdc++.so.6.0.22
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libtasn1.so.6 -> libtasn1.so.6.5.5
+-rwxr-xr-x    1 root     root         67448 May  1 15:56 libtasn1.so.6.5.5
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libtiff.so.5 -> libtiff.so.5.3.0
+-rwxr-xr-x    1 root     root        424288 Aug  2 05:57 libtiff.so.5.3.0
+lrwxrwxrwx    1 root     root            22 Sep 11 20:23 libtls.so.17 -> ../../lib/libtls.so.17
+lrwxrwxrwx    1 root     root            26 Sep 11 20:23 libtls.so.17.0.1 -> ../../lib/libtls.so.17.0.1
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libturbojpeg.so.0 -> libturbojpeg.so.0.1.0
+-rwxr-xr-x    1 root     root        411736 Sep 25 11:18 libturbojpeg.so.0.1.0
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libunistring.so.2 -> libunistring.so.2.0.0
+-rwxr-xr-x    1 root     root       1455960 May  1 11:43 libunistring.so.2.0.0
+lrwxrwxrwx    1 root     root            26 Oct 27 16:57 libwayland-client.so.0 -> libwayland-client.so.0.3.0
+-rwxr-xr-x    1 root     root         55792 May  9 09:17 libwayland-client.so.0.3.0
+lrwxrwxrwx    1 root     root            26 Oct 27 16:57 libwayland-cursor.so.0 -> libwayland-cursor.so.0.0.0
+-rwxr-xr-x    1 root     root         30528 May  9 09:17 libwayland-cursor.so.0.0.0
+lrwxrwxrwx    1 root     root            23 Oct 27 16:57 libwayland-egl.so.1 -> libwayland-egl.so.1.0.0
+-rwxr-xr-x    1 root     root          5696 May  9 09:17 libwayland-egl.so.1.0.0
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libwebp.so.7 -> libwebp.so.7.0.2
+-rwxr-xr-x    1 root     root        337792 May  1 17:15 libwebp.so.7.0.2
+lrwxrwxrwx    1 root     root            23 Oct 27 16:57 libwebpdecoder.so.3 -> libwebpdecoder.so.3.0.2
+-rwxr-xr-x    1 root     root        169824 May  1 17:15 libwebpdecoder.so.3.0.2
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libwebpdemux.so.2 -> libwebpdemux.so.2.0.4
+-rwxr-xr-x    1 root     root         18136 May  1 17:15 libwebpdemux.so.2.0.4
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libwebpmux.so.3 -> libwebpmux.so.3.0.2
+-rwxr-xr-x    1 root     root         34440 May  1 17:15 libwebpmux.so.3.0.2
+lrwxrwxrwx    1 root     root            25 Oct 27 16:57 libxcb-composite.so.0 -> libxcb-composite.so.0.0.0
+-rwxr-xr-x    1 root     root          9968 Jun  1 20:15 libxcb-composite.so.0.0.0
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libxcb-damage.so.0 -> libxcb-damage.so.0.0.0
+-rwxr-xr-x    1 root     root          9968 Jun  1 20:15 libxcb-damage.so.0.0.0
+lrwxrwxrwx    1 root     root            20 Oct 27 16:57 libxcb-dpms.so.0 -> libxcb-dpms.so.0.0.0
+-rwxr-xr-x    1 root     root          9968 Jun  1 20:15 libxcb-dpms.so.0.0.0
+lrwxrwxrwx    1 root     root            20 Oct 27 16:57 libxcb-dri2.so.0 -> libxcb-dri2.so.0.0.0
+-rwxr-xr-x    1 root     root         18160 Jun  1 20:15 libxcb-dri2.so.0.0.0
+lrwxrwxrwx    1 root     root            20 Oct 27 16:57 libxcb-dri3.so.0 -> libxcb-dri3.so.0.0.0
+-rwxr-xr-x    1 root     root         14064 Jun  1 20:15 libxcb-dri3.so.0.0.0
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libxcb-glx.so.0 -> libxcb-glx.so.0.0.0
+-rwxr-xr-x    1 root     root        100080 Jun  1 20:15 libxcb-glx.so.0.0.0
+lrwxrwxrwx    1 root     root            23 Oct 27 16:57 libxcb-present.so.0 -> libxcb-present.so.0.0.0
+-rwxr-xr-x    1 root     root          9968 Jun  1 20:15 libxcb-present.so.0.0.0
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libxcb-randr.so.0 -> libxcb-randr.so.0.1.0
+-rwxr-xr-x    1 root     root         63216 Jun  1 20:15 libxcb-randr.so.0.1.0
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libxcb-record.so.0 -> libxcb-record.so.0.0.0
+-rwxr-xr-x    1 root     root         18160 Jun  1 20:15 libxcb-record.so.0.0.0
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libxcb-render.so.0 -> libxcb-render.so.0.0.0
+-rwxr-xr-x    1 root     root         55024 Jun  1 20:15 libxcb-render.so.0.0.0
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libxcb-res.so.0 -> libxcb-res.so.0.0.0
+-rwxr-xr-x    1 root     root         14064 Jun  1 20:15 libxcb-res.so.0.0.0
+lrwxrwxrwx    1 root     root            27 Oct 27 16:57 libxcb-screensaver.so.0 -> libxcb-screensaver.so.0.0.0
+-rwxr-xr-x    1 root     root         14064 Jun  1 20:15 libxcb-screensaver.so.0.0.0
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libxcb-shape.so.0 -> libxcb-shape.so.0.0.0
+-rwxr-xr-x    1 root     root         14064 Jun  1 20:15 libxcb-shape.so.0.0.0
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libxcb-shm.so.0 -> libxcb-shm.so.0.0.0
+-rwxr-xr-x    1 root     root         14064 Jun  1 20:15 libxcb-shm.so.0.0.0
+lrwxrwxrwx    1 root     root            20 Oct 27 16:57 libxcb-sync.so.1 -> libxcb-sync.so.1.0.0
+-rwxr-xr-x    1 root     root         26352 Jun  1 20:15 libxcb-sync.so.1.0.0
+lrwxrwxrwx    1 root     root            23 Oct 27 16:57 libxcb-xf86dri.so.0 -> libxcb-xf86dri.so.0.0.0
+-rwxr-xr-x    1 root     root         18160 Jun  1 20:15 libxcb-xf86dri.so.0.0.0
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libxcb-xfixes.so.0 -> libxcb-xfixes.so.0.0.0
+-rwxr-xr-x    1 root     root         30448 Jun  1 20:15 libxcb-xfixes.so.0.0.0
+lrwxrwxrwx    1 root     root            24 Oct 27 16:57 libxcb-xinerama.so.0 -> libxcb-xinerama.so.0.0.0
+-rwxr-xr-x    1 root     root          9968 Jun  1 20:15 libxcb-xinerama.so.0.0.0
+lrwxrwxrwx    1 root     root            22 Oct 27 16:57 libxcb-xinput.so.0 -> libxcb-xinput.so.0.1.0
+-rwxr-xr-x    1 root     root        132848 Jun  1 20:15 libxcb-xinput.so.0.1.0
+lrwxrwxrwx    1 root     root            19 Oct 27 16:57 libxcb-xkb.so.1 -> libxcb-xkb.so.1.0.0
+-rwxr-xr-x    1 root     root        108272 Jun  1 20:15 libxcb-xkb.so.1.0.0
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libxcb-xtest.so.0 -> libxcb-xtest.so.0.0.0
+-rwxr-xr-x    1 root     root          9968 Jun  1 20:15 libxcb-xtest.so.0.0.0
+lrwxrwxrwx    1 root     root            18 Oct 27 16:57 libxcb-xv.so.0 -> libxcb-xv.so.0.0.0
+-rwxr-xr-x    1 root     root         26352 Jun  1 20:15 libxcb-xv.so.0.0.0
+lrwxrwxrwx    1 root     root            20 Oct 27 16:57 libxcb-xvmc.so.0 -> libxcb-xvmc.so.0.0.0
+-rwxr-xr-x    1 root     root         14064 Jun  1 20:15 libxcb-xvmc.so.0.0.0
+lrwxrwxrwx    1 root     root            15 Oct 27 16:57 libxcb.so.1 -> libxcb.so.1.1.0
+-rwxr-xr-x    1 root     root        153360 Jun  1 20:15 libxcb.so.1.1.0
+lrwxrwxrwx    1 root     root            25 Oct 27 16:57 libxkbcommon-x11.so.0 -> libxkbcommon-x11.so.0.0.0
+-rwxr-xr-x    1 root     root         26560 May  1 17:37 libxkbcommon-x11.so.0.0.0
+lrwxrwxrwx    1 root     root            21 Oct 27 16:57 libxkbcommon.so.0 -> libxkbcommon.so.0.0.0
+-rwxr-xr-x    1 root     root        235376 May  1 17:37 libxkbcommon.so.0.0.0
+lrwxrwxrwx    1 root     root            16 Oct 27 16:57 libxml2.so.2 -> libxml2.so.2.9.8
+-rwxr-xr-x    1 root     root       1209640 Oct 24 16:25 libxml2.so.2.9.8
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 libxslt-plugins
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 libxslt.so.1 -> libxslt.so.1.1.32
+-rwxr-xr-x    1 root     root        227400 Jun 17 12:27 libxslt.so.1.1.32
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 pkcs11
+drwxr-xr-x    1 root     root          4096 Oct 27 16:58 python2.7
+drwxr-xr-x    3 root     root          4096 Oct 27 16:57 systemd
+lrwxrwxrwx    1 root     root            17 Oct 27 16:57 terminfo -> ../share/terminfo
+-rw-r--r--    1 root     root           168 Jun 17 12:27 xsltConf.sh
+Removing intermediate container 792b52d24437
+ ---> 44e49a9a14d9
+Step 32/38 : RUN ls -la /usr/bin/chromium-browser
+ ---> Running in 6d3b90aba872
+lrwxrwxrwx    1 root     root            38 Oct 27 16:57 /usr/bin/chromium-browser -> /usr/lib/chromium/chromium-launcher.sh
+Removing intermediate container 6d3b90aba872
+ ---> e1736eeff767
+Step 33/38 : RUN mv /usr/bin/chromium-browser /usr/lib64/chromium-browser/chromium-browser
+ ---> Running in 3f55985ceb60
+mv: can't rename '/usr/bin/chromium-browser': No such file or directory
+The command '/bin/sh -c mv /usr/bin/chromium-browser /usr/lib64/chromium-browser/chromium-browser' returned a non-zero code: 1
+---------------------------------------------------------------------------------------------
+Docker build finished
+Docker Image name: 'ckleinhuis/ufp-robotframework'
+Example usage of this Docker Image:
+
+Step 1: Create docker-compose.yml
+
+version: '3'
+services:
+  roboter_chrome:
+    image: ckleinhuis/ufp-robotframework:latest
+     #
+     # shared memory size configuration
+     # even headless chrome needs some swapping memory, this is configured here
+     # and set to a reasonable amount if browser crashes without other reasons
+     # checking the free memory is quite an issue
+     #
+    shm_size: '4gb'
+    volumes:
+      - ./reports:/opt/robotframework/reports
+      - ./test:/opt/robotframework/tests
+    environment:
+      - LOG_LEVEL=vvv
+
+Step 2: execute 'docker-compose up'

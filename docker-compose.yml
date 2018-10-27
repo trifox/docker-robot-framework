@@ -1,7 +1,7 @@
 version: '3'
 services:
   roboter_chrome:
-    image: ufp-docker-robot-framework
+    image: ckleinhuis/ufp-robotframework:latest
      #
      # shared memory size configuration
      # even headless chrome needs some swapping memory, this is configured here

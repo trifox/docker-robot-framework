@@ -121,7 +121,7 @@ ${HTML}
 <br/>
 <br/>
 </body>
-</html>" >> ${REPORTDIR}/index.html
+</html>" > ${REPORTDIR}/index.html
 
 END_DATE=$(date)
 logv "[INFO] Index Html Report End ${END_DATE}"

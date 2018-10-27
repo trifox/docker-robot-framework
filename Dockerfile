@@ -25,13 +25,15 @@ RUN pip install \
 	robotframework-csvlibrary==0.0.2\
 	robotframework-yamllibrary==0.2.8\
 	robotframework-jsonschemalibrary==1.0\
+	robotframework-jsonvalidator ==1.0.1\
 	# Database\
 	robotframework-mongodblibrary==0.3.4\
-	robotframework-databaselibrary==1.0.1\
+	robotframework-pg8000==1.12.3\
+	robotframework-pg8000==1.0.1\
 	# Services\
 	robotframework-apachetomcat==1.0.1\
 	robotframework-imaplibrary==0.3.0\
-	robotframework-kafkalibrary==0.0.1\
+	robotframework-pykafka ==0.0.9\
 	robotframework-rabbitmq==1.0.1\
 	robotframework-redislibrary==0.1\
 	robotframework-zookeeperlibrary==0.1.4\
@@ -51,7 +53,8 @@ RUN pip install \
 	robotframework-stringformat==0.1.7\
 	robotframework-randomlibrary==0.0.2\
 	robotframework-seleniumlibrary==3.1.1\
-	robotframework-websocketclient==1.3.0
+	robotframework-websocketclient==1.3.0\
+	robotframework-jmeterlibrary ==1.2
 
 # inactive due to size
 # env setup for running tests

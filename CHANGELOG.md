@@ -1,5 +1,9 @@
 # Extended Robot Framework in Docker and Chrome Headless 
  
+## 12.0.0
+  - use alpine
+  - fix html index
+
 ## 11.0.0
 	* extension of logging
 	* creation of index.html for test and documentation overview

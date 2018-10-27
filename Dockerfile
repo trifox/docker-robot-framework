@@ -63,7 +63,7 @@ ENV SCREEN_COLOUR_DEPTH 24
 ENV SCREEN_WIDTH 1920
 ENV SCREEN_HEIGHT 1080
 
-ENV LOG_LEVEL x
+ENV LOG_LEVEL vvv
 ENV BROWSER chrome
 
 
@@ -95,11 +95,6 @@ ENV ROBOT_LOGLEVEL 'INFO'
 # Remaining robot options inserted at the end of robot config, before test folder
 ENV ROBOT_OPTIONS ''
 
-
-
-
-
-#ADD drivers/geckodriver-v0.19.1-linux64.tar.gz /opt/robotframework/drivers/
 COPY bin/chromedriver.sh /opt/robotframework/bin/chromedriver
 COPY bin/chromium-browser.sh /opt/robotframework/bin/chromium-browser
 
@@ -109,22 +104,13 @@ COPY bin/create-library-documentation.sh /opt/robotframework/bin/
 COPY bin/create-report-index-html.sh /opt/robotframework/bin/
 COPY bin/system-status.sh /opt/robotframework/bin/
 COPY bin/util.sh /opt/robotframework/bin/
-#COPY bin/firefox-browser.sh /opt/robotframework/bin/
-RUN echo "Hey"
+
 #RUN which firefox
 # WIP but for now removed for the sake of smaller image, just headless chrome ...
 # FIXME: below is a workaround, as the path is ignored
-RUN ls -la /usr/bin
-RUN ls -la /usr/lib/chromium
-RUN ls -la /usr/bin/chromium-browser
-
 RUN mv /usr/lib/chromium/chrome /usr/lib/chromium/chromium-original
 RUN ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib/chromium/chrome
 
-#RUN mv /usr/bin/firefox /usr/bin/firefox-original
-#RUN ln -sfv /opt/robotframework/bin/firefox-browser /usr/bin/firefox
-
 RUN rm -rf /var/cache/*
 ENV PATH=/opt/robotframework/bin:/opt/robotframework/drivers:$PATH
-EXPOSE 3000
 CMD ["run-tests-in-virtual-screen.sh" ]

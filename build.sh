@@ -1,9 +1,10 @@
 #!/bin/bash
 
 IMAGE_NAME="ckleinhuis/ufp-robotframework"
+VERSION="12"
 
 # build docker image from current setup usefor rebuild (e.g. changes in bin folder)
-docker build $@ . -t $IMAGE_NAME
+docker build $@ . -t ${IMAGE_NAME}:${VERSION} -t ${IMAGE_NAME}:latest
 
 echo "---------------------------------------------------------------------------------------------"
 echo "Docker build finished "

@@ -8,5 +8,5 @@ ${BROWSER}        chrome
 *** Test Cases ***
 Visit Google
     [Documentation]    open browser and make screenshot
-    Open Browser    http://wiremock-rest:8080    ${BROWSER}
+    Open Browser    http://wiremock-rest:8080/__admin    ${BROWSER}
     Capture Page Screenshot

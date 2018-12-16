@@ -22,7 +22,7 @@ RUN pip install \
 	robotframework==3.1\
 	# Data Exchange\
 	robotframework-jsonlibrary==0.2\
-	robotfra    mework-csvlibrary==0.0.2\
+	robotframework-csvlibrary==0.0.2\
 	robotframework-yamllibrary==0.2.8\
 	robotframework-jsonschemalibrary==1.0\
 	robotframework-jsonvalidator==1.0.1\

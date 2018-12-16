@@ -1,5 +1,9 @@
 # Extended Robot Framework in Docker and Chrome Headless 
  
+## 13.0.0
+ - robotframework 3.1
+ - linting in loglevel vv only
+
 ## 12.0.0
   - use alpine
   - fix html index
@@ -14,7 +18,8 @@
 ## 10.0.0
  * Initial Klone more libraries, reduced to chrome headless
                                            
-[unreleased]: https://github.com/trifox/docker-robot-framework/compare/12.0.0...trifox:develop
+[unreleased]: https://github.com/trifox/docker-robot-framework/compare/13.0.0...trifox:develop
+[13.0.0]: https://github.com/trifox/docker-robot-framework/compare/12.0.0...trifox:13.0.0
 [12.0.0]: https://github.com/trifox/docker-robot-framework/compare/11.0.0...trifox:12.0.0
 [11.0.0]: https://github.com/trifox/docker-robot-framework/compare/10.0.0...trifox:11.0.0
 [10.0.0]: https://github.com/trifox/docker-robot-framework/tree/10.0.0

@@ -1,32 +1,9 @@
 version: "2"
 services:
-  logLevelv:
-    image: ckleinhuis/ufp-robotframework:14
-    environment:
-    - LOG_LEVEL=v
-    volumes:
-    - ./robot:/opt/robotframework/tests
-    - ./robot/reportv:/opt/robotframework/reports
-
-  logLevelvv:
-    image: ckleinhuis/ufp-robotframework:14
-    environment:
-    - LOG_LEVEL=vv
-    volumes:
-    - ./robot:/opt/robotframework/tests
-    - ./robot/reportvv:/opt/robotframework/reports
-
-  logLevelvvv:
+  start-dependencies:
     image: ckleinhuis/ufp-robotframework:14
     environment:
     - LOG_LEVEL=vvv
     volumes:
     - ./robot:/opt/robotframework/tests
-    - ./robot/reportvvv:/opt/robotframework/reports
-
-  start-dependencies:
-    image:  dadarek/wait-for-dependencies
-    depends_on:
-    - logLevelv
-    - logLevelvv
-    - logLevelvvv
+    - ./robot/reportv:/opt/robotframework/reports

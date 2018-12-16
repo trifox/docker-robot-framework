@@ -43,6 +43,8 @@ START_DATE=$(date)
 logv "[INFO] Start ${START_DATE}"
 
 logStart
+robot  --version
+logStart
 robot  -L ${ROBOT_LOGLEVEL} -i "${ROBOT_INCLUDE_TAG}"  -e "${ROBOT_EXCLUDE_TAG}"  -c "${ROBOT_CRITICAL_TAG}" -n "${ROBOT_NONCRITICAL_TAG}" --xunit xunit.xml --outputDir ${REPORTDIR}  ${ROBOT_OPTIONS} ${TESTDIR}
 # copy chromedriver logs to output
 ROBOTRESULT=$?

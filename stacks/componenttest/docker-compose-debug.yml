@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+
+  ##############################################
+  # The Development Overview Container
+  #
+  # it uses the ckleinhuis/ufp-env-handlebars image to transform environment variables into a json
+  # that is feed to a handlebars renderer and is configured by default to render and host a html menu
+  #
+  #
+  development-overview:
+    image: ckleinhuis/ufp-env-handlebars:latest
+    environment:
+    - CFG_BRAND_LABEL=Dev Ufp-RobotFramework
+
+    - CFG_MENU_0_LABEL=Wiremock
+    - CFG_MENU_0_LINK=http://localhost:8081/
+
+
+    - CFG_WELCOME_ENTRIES_0_TEXTS_0_TITLE=Ufp Test Report Debug Entrypoint
+    - CFG_WELCOME_ENTRIES_0_TEXTS_0_COLOR=secondary
+    - CFG_WELCOME_ENTRIES_0_TEXTS_0_TEXT=This is just the entry point for SIDT application development debug stack,<p>Hence it is a testing service, you can only inspect the mocked environment for the base image, checking if all functionality is working</p>
+
+    ports:
+    - "8080:3000"
+
+

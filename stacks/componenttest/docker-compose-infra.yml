@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+
+  ##############################################
+  # The MySQL Database
+  #
+  # the database that is used by the nodeJS app and the only infrastructure needed for the example
+  #
+  wiremock-rest:
+    image: rodolpheche/wiremock
+    ports:
+    - "8080:80"
+
+  db-mysql:
+    image: mysql
+
+  db-postgres:
+    image: postgres

@@ -1,6 +1,18 @@
 #!/bin/bash
 source util.sh
 START_TIME=$SECONDS
+
+
+
+
+echo " ____ ________________________         __________ ________ __________ ___________________"
+echo "|    |   \_   _____/\______   \        \______   \\_____  \\______   \\_____  \__    ___/"
+echo "|    |   /|    __)   |     ___/  ______ |       _/ /   |   \|    |  _/ /   |   \|    |"
+echo "|    |  / |     \    |    |     /_____/ |    |   \/    |    \    |   \/    |    \    |"
+echo "|______/  \___  /    |____|             |____|_  /\_______  /______  /\_______  /____|"
+echo "              \/                               \/         \/       \/         \/"
+
+
 log "[INFO] Running tests in virtual screens"
 REPORTDIR=${1:-/opt/robotframework/reports}
 TESTDIR=${2:-/opt/robotframework/tests}
@@ -12,9 +24,11 @@ export TESTDIR
 #rm -rf ${REPORTDIR}/doc/test/*
 #logv "[INFO] Cleaning reports finished"
 
-logv "[INFO] Linting of robot files"
-rflint ${TESTDIR}/*
-logv "[INFO] Linting of robot files finished"
+if [ "${LOG_LEVEL}" = "vv" ] ||[ "${LOG_LEVEL}" = "vvv" ];then
+    logv "[INFO] Linting of robot files"
+    rflint ${TESTDIR}/*
+    logv "[INFO] Linting of robot files finished"
+fi
 
 logv "[INFO] Run robot tests ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH}"
 logv "[INFO] Critical Tags [${ROBOT_CRITICAL_TAG}]  "

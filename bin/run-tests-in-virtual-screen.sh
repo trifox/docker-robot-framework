@@ -58,6 +58,7 @@ fi
 create-report-index-html.sh
 
 log "[INFO] Finished running tests in virtual screens"
+log "[INFO] Robot Exit Code is ${ROBOTRESULT}"
 
 ELAPSED_TIME=$(($SECONDS - $START_TIME))
 echo "UfpRobotDocker total duration: $(($ELAPSED_TIME/60)) min $(($ELAPSED_TIME%60)) sec"

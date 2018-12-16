@@ -7,20 +7,20 @@ log(){
 logv(){
 	if [ "${LOG_LEVEL}" = "v" ] ||[ "${LOG_LEVEL}" = "vv" ] ||[ "${LOG_LEVEL}" = "vvv" ]
 	then
-		log $@
+		log [INFO] $@
 	fi
 }
 
 logvv(){
 	if [ "${LOG_LEVEL}" = "vv" ] ||[ "${LOG_LEVEL}" = "vvv" ]
 	then
-		log $@
+		log [DEBUG] $@
 	fi
 }
 
 logvvv(){
     if [ "${LOG_LEVEL}" = "vvv" ]
 	then
-		log $@
+		log [TRACE] $@
 	fi
 }

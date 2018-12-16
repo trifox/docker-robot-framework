@@ -19,7 +19,7 @@ RUN apk update && apk upgrade && apk add --no-cache \
 # install required/wanted robot-libraries and needed python modules
 RUN pip install \
 	# Base Libraries\
-	robotframework==3.0.4\
+	robotframework==3.1\
 	# Data Exchange\
 	robotframework-jsonlibrary==0.2\
 	robotframework-csvlibrary==0.0.2\

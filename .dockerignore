@@ -1,2 +1,10 @@
 .travis.yml
-
+.git
+.gitignore
+.idea
+reports
+CHANGELOG.md
+README.md
+docker-compose.yml
+LICENSE
+test

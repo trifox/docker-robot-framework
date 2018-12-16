@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.8
 
 MAINTAINER Christian Kleinhuis <trifox@users.noreply.github.com>
 
@@ -8,18 +8,18 @@ VOLUME /opt/robotframework/reports
 VOLUME /opt/robotframework/tests
 
 # install required modules
-RUN apk update && apk upgrade && apk add --no-cache \
+RUN apk -v update && apk -v upgrade && apk add -v --no-cache \
 		chromium-chromedriver\
 		chromium\
 		py2-pip\
 		bash\
-	&& apk del --purge
+	&& apk -v del --purge
 
 
 # install required/wanted robot-libraries and needed python modules
 RUN pip install \
 	# Base Libraries\
-	robotframework==3.0.4\
+	robotframework==3.1\
 	# Data Exchange\
 	robotframework-jsonlibrary==0.2\
 	robotframework-csvlibrary==0.0.2\

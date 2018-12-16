@@ -1,0 +1,9 @@
+version: "2"
+services:
+  robot-test:
+    image: ckleinhuis/ufp-robotframework:13
+    environment:
+    - LOG_LEVEL=v
+    volumes:
+    - ./robot:/opt/robotframework/tests
+    - ./robot/report:/opt/robotframework/reports

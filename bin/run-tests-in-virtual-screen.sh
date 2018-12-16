@@ -4,14 +4,7 @@ START_TIME=$SECONDS
 
 
 
-
-echo " ____ ________________________         __________ ________ __________ ___________________"
-echo "|    |   \\\\_   _____/\\______   \\        \\______   \\\\_____  \\\\______   \\\\_____  \\__    ___/"
-echo "|    |   /|    __)   |     ___/  ______ |       _/ /   |   \\|    |  _/ /   |   \\|    |"
-echo "|    |  / |     \\    |    |     /_____/ |    |   \\/    |    \\    |   \\/    |    \\    |"
-echo "|______/  \\___  /    |____|             |____|_  /\\_______  /______  /\\_______  /____|"
-echo "              \\/                               \\/         \\/       \\/         \\/"
-
+logLogo
 
 log "[INFO] Running tests in virtual screens"
 REPORTDIR=${1:-/opt/robotframework/reports}
@@ -48,11 +41,13 @@ fi
 
 START_DATE=$(date)
 logv "[INFO] Start ${START_DATE}"
-logBegin
+
+logStart
 robot  -L ${ROBOT_LOGLEVEL} -i "${ROBOT_INCLUDE_TAG}"  -e "${ROBOT_EXCLUDE_TAG}"  -c "${ROBOT_CRITICAL_TAG}" -n "${ROBOT_NONCRITICAL_TAG}" --xunit xunit.xml --outputDir ${REPORTDIR}  ${ROBOT_OPTIONS} ${TESTDIR}
 # copy chromedriver logs to output
 ROBOTRESULT=$?
 logEnd
+
 
 END_DATE=$(date)
 logv "[INFO] End ${END_DATE}"
@@ -72,7 +67,6 @@ fi
 create-report-index-html.sh
 
 log "[INFO] Finished running tests in virtual screens"
-log "[INFO] Robot Exit Code is ${ROBOTRESULT}"
 
 ELAPSED_TIME=$(($SECONDS - $START_TIME))
 echo "UfpRobotDocker total duration: $(($ELAPSED_TIME/60)) min $(($ELAPSED_TIME%60)) sec"

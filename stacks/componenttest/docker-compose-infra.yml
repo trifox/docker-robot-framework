@@ -1,0 +1,65 @@
+version: '2'
+
+services:
+
+  ##############################################
+  # The MySQL Database
+  #
+  # the database that is used by the nodeJS app and the only infrastructure needed for the example
+  #
+  wiremock-rest:
+    image: rodolpheche/wiremock
+    ports:
+    - "8081:8080"
+  db-mongo:
+    image: mongo:3.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+    - "27017:27017"
+
+  db-postgres:
+    image: postgres:9.6-alpine
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+
+  db-mysql:
+    image: mysql:5.7
+    ports:
+    - "3306:3306"
+    environment:
+    - "MYSQL_ROOT_PASSWORD=example"
+    - "MYSQL_DATABASE=test"
+
+  zookeeper:
+    image: zookeeper
+    ports:
+    - "2181:2181"
+    - "2888:2888"
+    - "3888:3888"
+  kafka:
+    image: wurstmeister/kafka:1.1.0
+    environment:
+    - "KAFKA_ADVERTISED_PORT=9092"
+    - "KAFKA_ZOOKEEPER_CONNECT=zookeeper"
+    - "HOSTNAME_COMMAND=ifconfig eth0 | grep 'inet ' | awk '{print $$2}' | awk -F ':' '{print $$2}'"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+    - "9092:9092"
+
+    depends_on:
+    - zookeeper
+    restart: always
+  start-dependencies:
+    image:  dadarek/wait-for-dependencies
+    depends_on:
+    - db-mysql
+    - db-postgres
+    - db-mongo
+    - wiremock-rest

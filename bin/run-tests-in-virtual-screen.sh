@@ -1,6 +1,11 @@
 #!/bin/bash
 source util.sh
 START_TIME=$SECONDS
+
+
+
+logLogo
+
 log "[INFO] Running tests in virtual screens"
 REPORTDIR=${1:-/opt/robotframework/reports}
 TESTDIR=${2:-/opt/robotframework/tests}
@@ -12,9 +17,11 @@ export TESTDIR
 #rm -rf ${REPORTDIR}/doc/test/*
 #logv "[INFO] Cleaning reports finished"
 
-logv "[INFO] Linting of robot files"
-rflint ${TESTDIR}/*
-logv "[INFO] Linting of robot files finished"
+if [ "${LOG_LEVEL}" = "vv" ] ||[ "${LOG_LEVEL}" = "vvv" ];then
+    logv "[INFO] Linting of robot files"
+    rflint ${TESTDIR}/*
+    logv "[INFO] Linting of robot files finished"
+fi
 
 logv "[INFO] Run robot tests ${SCREEN_WIDTH}x${SCREEN_HEIGHT}x${SCREEN_COLOUR_DEPTH}"
 logv "[INFO] Critical Tags [${ROBOT_CRITICAL_TAG}]  "
@@ -35,9 +42,13 @@ fi
 START_DATE=$(date)
 logv "[INFO] Start ${START_DATE}"
 
+logStart
+robot  --version
+logStart
 robot  -L ${ROBOT_LOGLEVEL} -i "${ROBOT_INCLUDE_TAG}"  -e "${ROBOT_EXCLUDE_TAG}"  -c "${ROBOT_CRITICAL_TAG}" -n "${ROBOT_NONCRITICAL_TAG}" --xunit xunit.xml --outputDir ${REPORTDIR}  ${ROBOT_OPTIONS} ${TESTDIR}
 # copy chromedriver logs to output
 ROBOTRESULT=$?
+logEnd
 
 
 END_DATE=$(date)

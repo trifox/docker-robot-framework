@@ -28,7 +28,12 @@ HTML="${HTML}
 <a href='report.html' class='btn btn-primary'>Test Report</a>
 <a href='log.html' class='btn btn-secondary'>Test Log</a>
 </div>
-</div>
+</div>"
+
+
+if [ "${LOG_LEVEL}" = "vv" ]||[ "${LOG_LEVEL}" = "vvv" ]
+then
+HTML="${HTML}
 <div class='card'>
 <div class='card-body'>
 <h3>Test Documentation</h3>
@@ -76,7 +81,7 @@ done
 
 HTML="${HTML}
 </div></div>"
-
+fi
 if [ "${LOG_LEVEL}" = "v" ]||[ "${LOG_LEVEL}" = "vv" ]||[ "${LOG_LEVEL}" = "vvv" ]
 then
    HTML="${HTML}

@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.8
 
 MAINTAINER Christian Kleinhuis <trifox@users.noreply.github.com>
 
@@ -8,18 +8,18 @@ VOLUME /opt/robotframework/reports
 VOLUME /opt/robotframework/tests
 
 # install required modules
-RUN apk update && apk upgrade && apk add --no-cache \
+RUN apk -v update && apk -v upgrade && apk add -v --no-cache \
 		chromium-chromedriver\
 		chromium\
 		py2-pip\
 		bash\
-	&& apk del --purge
+	&& apk -v del --purge
 
 
 # install required/wanted robot-libraries and needed python modules
 RUN pip install \
 	# Base Libraries\
-	robotframework==3.0.4\
+	robotframework==3.1\
 	# Data Exchange\
 	robotframework-jsonlibrary==0.2\
 	robotframework-csvlibrary==0.0.2\
@@ -53,8 +53,8 @@ RUN pip install \
 	robotframework-stringformat==0.1.8\
 	robotframework-randomlibrary==0.0.2\
 	robotframework-seleniumlibrary==3.2.0\
-	robotframework-websocketclient==1.3.0
-RUN pip list --outdated
+	robotframework-websocketclient==1.3.0\
+    && pip list --outdated
 # inactive due to size
 # env setup for running tests
 # ENV SERVE_REPORTS 1 --- 1=start express on port:3000 to browse and restart tests 0=just execute tests
@@ -108,9 +108,8 @@ COPY bin/util.sh /opt/robotframework/bin/
 #RUN which firefox
 # WIP but for now removed for the sake of smaller image, just headless chrome ...
 # FIXME: below is a workaround, as the path is ignored
-RUN mv /usr/lib/chromium/chrome /usr/lib/chromium/chromium-original
-RUN ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib/chromium/chrome
-
-RUN rm -rf /var/cache/*
+RUN mv /usr/lib/chromium/chrome /usr/lib/chromium/chromium-original\
+    && ln -sfv /opt/robotframework/bin/chromium-browser /usr/lib/chromium/chrome\
+    && rm -rf /var/cache/*
 ENV PATH=/opt/robotframework/bin:/opt/robotframework/drivers:$PATH
 CMD ["run-tests-in-virtual-screen.sh" ]

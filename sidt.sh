@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SIDT https://github.com/FrontendSolutionsGmbH/ufp-sidt-template
 
 loadEnv(){
 
@@ -21,6 +22,7 @@ log ""
 ACTIVE_STACKS=(infra service debug test)
 
 CACHE="--no-cache"
+#CACHE=""
 DOCKERFILESUFFIX=""
 
 SUITE_NAME=${SIDT_SUITE:-"componenttest"}
@@ -161,7 +163,7 @@ startStack() {
 stopStack() {
     COMPOSE_FILENAME=$1
 	  log "Stopping Stack ${COMPOSE_FILENAME}"
-    docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} down
+    docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} down -v
 }
 
 logAllImages() {

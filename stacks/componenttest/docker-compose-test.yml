@@ -1,0 +1,9 @@
+version: "2"
+services:
+  start-dependencies:
+    image: ckleinhuis/ufp-robotframework:14
+    environment:
+    - LOG_LEVEL=vvv
+    volumes:
+    - ./robot:/opt/robotframework/tests
+    - ./robot/reportv:/opt/robotframework/reports

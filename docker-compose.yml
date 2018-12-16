@@ -1,7 +1,7 @@
 version: '3'
 services:
   roboter_chrome:
-    image: ckleinhuis/ufp-robotframework:latest
+    image: ckleinhuis/ufp-robotframework:13
      #
      # shared memory size configuration
      # even headless chrome needs some swapping memory, this is configured here
@@ -13,4 +13,4 @@ services:
       - ./reports:/opt/robotframework/reports
       - ./test:/opt/robotframework/tests
     environment:
-      - LOG_LEVEL=vvv
+      - LOG_LEVEL=vv

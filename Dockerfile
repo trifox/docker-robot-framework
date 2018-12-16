@@ -13,7 +13,8 @@ RUN apk -v update && apk -v upgrade && apk add -v --no-cache \
 		chromium\
 		py2-pip\
 		bash\
-	&& apk -v del --purge
+	&& apk -v del --purge\
+	&& rm -rf /var/cache/apk/*
 
 
 # install required/wanted robot-libraries and needed python modules

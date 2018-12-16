@@ -7,6 +7,6 @@
 # IntelliJ
 .idea/
 *.iml
-
+stacks/componenttest/robot/report
 reports/
 test/simpletest-demo*

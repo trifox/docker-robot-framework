@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SIDT https://github.com/FrontendSolutionsGmbH/ufp-sidt-template
 
 loadEnv(){
 
@@ -161,7 +162,7 @@ startStack() {
 stopStack() {
     COMPOSE_FILENAME=$1
 	  log "Stopping Stack ${COMPOSE_FILENAME}"
-    docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} down
+    docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} down -v
 }
 
 logAllImages() {

@@ -15,7 +15,7 @@ services:
     - CFG_BRAND_LABEL=Dev Ufp-RobotFramework
 
     - CFG_MENU_0_LABEL=Wiremock
-    - CFG_MENU_0_LINK=http://localhost:8081/
+    - CFG_MENU_0_LINK=http://localhost:8081/__admin
 
 
     - CFG_WELCOME_ENTRIES_0_TEXTS_0_TITLE=Ufp Test Report Debug Entrypoint

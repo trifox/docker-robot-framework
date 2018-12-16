@@ -1,6 +1,6 @@
 version: "2"
 services:
-  robot-test:
+  start-dependencies:
     image: ckleinhuis/ufp-robotframework:13
     environment:
     - LOG_LEVEL=v

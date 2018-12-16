@@ -12,8 +12,20 @@ https://github.com/ppodgorsek/docker-robot-framework
 
 ## Quickstart
 
-	docker build . -t ufp-docker-robot-framework
-	docker-compose up
+Make the docker image
+
+	sidt.sh -m service
+
+Test The image, first start the infra stack 
+
+	sidt.sh -u infra
+
+then run the robot test against it (kinda inception testing itself by using itself)
+
+the sidt.sh is a service paradigm read more about it [here](https://github.com/FrontendSolutionsGmbH/ufp-sidt-template) a short primer:
+
+	-u debug - starts the debug stack usually with some utility containers
+	-b runs stack in foreground
 
 ## What is it?
 

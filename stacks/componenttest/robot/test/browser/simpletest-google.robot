@@ -3,11 +3,10 @@ Documentation     example make google page screenshot
 Library           SeleniumLibrary
 
 *** Variables ***
-${BROWSER}        %{BROWSER}
+${BROWSER}        chrome
 
-*** Keywords ***
+*** Test Cases ***
 Visit Google
     [Documentation]    open browser and make screenshot
-    Open Browser    http://www.google.com    ${BROWSER}
-    Capture Page Screenshot    google.png
-    Close Browser
+    Open Browser    http://wiremock-rest:8080    ${BROWSER}
+    Capture Page Screenshot

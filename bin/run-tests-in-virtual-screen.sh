@@ -6,11 +6,11 @@ START_TIME=$SECONDS
 
 
 echo " ____ ________________________         __________ ________ __________ ___________________"
-echo "|    |   \_   _____/\______   \        \______   \\_____  \\______   \\_____  \__    ___/"
-echo "|    |   /|    __)   |     ___/  ______ |       _/ /   |   \|    |  _/ /   |   \|    |"
-echo "|    |  / |     \    |    |     /_____/ |    |   \/    |    \    |   \/    |    \    |"
-echo "|______/  \___  /    |____|             |____|_  /\_______  /______  /\_______  /____|"
-echo "              \/                               \/         \/       \/         \/"
+echo "|    |   \\\\_   _____/\\______   \\        \\______   \\\\_____  \\\\______   \\\\_____  \\__    ___/"
+echo "|    |   /|    __)   |     ___/  ______ |       _/ /   |   \\|    |  _/ /   |   \\|    |"
+echo "|    |  / |     \\    |    |     /_____/ |    |   \\/    |    \\    |   \\/    |    \\    |"
+echo "|______/  \\___  /    |____|             |____|_  /\\_______  /______  /\\_______  /____|"
+echo "              \\/                               \\/         \\/       \\/         \\/"
 
 
 log "[INFO] Running tests in virtual screens"
@@ -48,11 +48,11 @@ fi
 
 START_DATE=$(date)
 logv "[INFO] Start ${START_DATE}"
-
+logBegin
 robot  -L ${ROBOT_LOGLEVEL} -i "${ROBOT_INCLUDE_TAG}"  -e "${ROBOT_EXCLUDE_TAG}"  -c "${ROBOT_CRITICAL_TAG}" -n "${ROBOT_NONCRITICAL_TAG}" --xunit xunit.xml --outputDir ${REPORTDIR}  ${ROBOT_OPTIONS} ${TESTDIR}
 # copy chromedriver logs to output
 ROBOTRESULT=$?
-
+logEnd
 
 END_DATE=$(date)
 logv "[INFO] End ${END_DATE}"

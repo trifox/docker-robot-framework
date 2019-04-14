@@ -10,6 +10,7 @@ ${PORT_KAFKA}     9092
 *** Test Cases ***
 Kafka Get Topics
     [Documentation]    Validates that the kafka library can be used to retrieve kafka topics
+    [Tags]    python2
     Connect To Kafka    bootstrap_servers=${HOST_KAFKA}:${PORT_KAFKA}
     @{topics}=    Get Kafka Topics
     Close

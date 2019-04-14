@@ -29,6 +29,6 @@ Test Connect Mysql Database
     Connect To Database    pymysql    ${MYSQL_DB}    ${MYSQL_USER}    ${MYSQL_PASSWORD}    ${MYSQL_HOST}    ${MYSQL_PORT}
 
 Test Connect Mongo Database
-    [Tags]    database
+    [Tags]    database    python2
     Comment    Connect to MongoDB Server
     Connect To MongoDB    ${MDBHost}    ${MDBPort}

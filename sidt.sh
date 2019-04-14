@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
-# SIDT https://github.com/FrontendSolutionsGmbH/ufp-sidt-template
 
 loadEnv(){
 
 filename=".env"
 while IFS='=' read -r key value ; do
     export $key=$value
-    echo "Name read from file - $key -- $value"
+#    echo "Name read from file - $key -- $value"
 done < "$filename"
 
 }
 loadEnv
+
+COLOR1="\033[1;34m"
+COLOR2="\033[0;33m"
+NOCOLOR="\033[0m" # No Color
 log(){
-	echo "[$(date +"%Y-%m-%d %H:%M:%S")] $@"
+	echo -e "[${COLOR1}$(date '+%Y-%m-%d %H:%M:%S')${NOCOLOR}] [${COLOR2}${1}${NOCOLOR}]"
 }
 
 log ""
@@ -21,14 +24,15 @@ log ""
 
 ACTIVE_STACKS=(infra service debug test)
 
-CACHE="--no-cache"
+CACHE=${SIDT_CACHE:-"--no-cache"}
 #CACHE=""
-DOCKERFILESUFFIX=""
+DOCKERFILESUFFIX="service"
 
 SUITE_NAME=${SIDT_SUITE:-"componenttest"}
 
-PROJECT_NAME=${SIDT_PROJECT_NAME:-"ckleinhuis/ufp-robotframework"}
-VERSION=${SIDT_VERSION:-13}
+PROJECT_NAME=${SIDT_PROJECT_NAME:-"frontendsolutions/ufp-backend"}
+export VERSION=${SIDT_VERSION:-1}
+export CWD=$(pwd)
 SCRIPT_PATH=$(realpath "$0")
 SCRIPT_NAME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
 SCRIPT_HOME=${SCRIPT_PATH%$SCRIPT_NAME}
@@ -37,11 +41,12 @@ START=1
 STOP=0
 
 LOG_STACK=0
-STATE_STACK=0
+STATE_STACK=${SIDT_INFO:-0}
 PULL_STACK=0
-DEBUG=${SIDT_DEBUG:-0}
+DEBUG=${SIDT_DEBUG:-1}
 MAKE=0
 EXECUTE=1
+PUSH=0
 
 BACKGROUND="-d"
 CREATE=0
@@ -52,6 +57,15 @@ RESULT=0
 ###
 # Functions
 ###
+
+dockerCompose () {
+
+	log "------------------------------- docker-compose -------------------------------------"
+	log "docker-compose ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8} ${9}"
+	log "------------------------------- docker-compose  -------------------------------------"
+	docker-compose ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8} ${9}
+
+}
 
 help() {
   echo " "
@@ -67,12 +81,14 @@ help() {
   echo "   -c           (re-)Create container stacks"
   echo "   -v <version> Version"
   echo "   -n <name>    Name"
+  echo "   -q <name>    PUSH to name"
   echo "   -m <name>    Make"
   echo "   -l <stack>   Show the logs of stacks"
   echo "   -u <stack>   Starts the given stack. Possible stacks see below!"
   echo "   -d <stack>   Stops the given stack. Possible stacks see below!"
   echo "   -s <stack>   Stack state ps"
   echo "   -a <area>    Stack area, an area is a folder containing the -stack yamls"
+  echo "   -x     Publishes the main docker service image to registry"
   echo ""
   echo "   Possible Stacks:"
   echo "     infra     The infrastructure needed by the services"
@@ -95,75 +111,161 @@ help() {
   echo " (initial) author: s.schumann@tarent.de"
 }
 
-makeIt(){
+pushMainServiceDockerImage() {
 
+    VERSION=${VERSION} envsubst <docker-compose.yml>>docker-compose-fix.yml
+
+	DOCKERFILENAME=${DOCKERFILESUFFIX}
+	DOCKERTAG=${DOCKERFILESUFFIX}
+
+	if [ "$DOCKERFILESUFFIX" = "service" ]; then
+	   DOCKERFILENAME=""
+	   DOCKERTAG=""
+
+	elif [ $DOCKERFILESUFFIX ]; then
+	   DOCKERFILENAME=".$DOCKERFILESUFFIX"
+	   DOCKERTAG="-$DOCKERFILESUFFIX"
+	fi
+	log "PUSHING main docker image ${PROJECT_NAME}:${VERSION}${DOCKERTAG} "
+    docker push ${PROJECT_NAME}:${VERSION}${DOCKERTAG}
+#    docker push ${PROJECT_NAME}${DOCKERTAG}:latest
+
+}
+
+makeIt(){
+DOIT=${1:-1}
 DOCKERFILENAME=${DOCKERFILESUFFIX}
 DOCKERTAG=${DOCKERFILESUFFIX}
 
 if [ "$DOCKERFILESUFFIX" = "service" ]; then
    DOCKERFILENAME=""
    DOCKERTAG=""
+
+
+
+# MANUAL EDIT EXECUTE LOCALIZED BUT DOCKERIZED MAVEN BUILD
+#
+#if [ "$DOIT" = "1" ]; then
+#./maven.sh clean install
+#	TEMP=$?
+#	if [ $TEMP -eq 0 ];then
+#		log "MAKE SUCCESS"
+#	else
+#		log "MAKE FAILED"
+#		RESULT=$TEMP
+#		exit ${RESULT}
+#	fi
+#
+#else
+#	log "MAKING SKIPPED"
+#fi
+
 elif [ $DOCKERFILESUFFIX ]; then
-   DOCKERFILENAME=".$DOCKERFILESUFFIX"
-   DOCKERTAG="-$DOCKERFILESUFFIX"
+   DOCKERFILENAME=".${DOCKERFILESUFFIX}"
+   DOCKERTAG="-${DOCKERFILESUFFIX}"
 fi
-cd application
+
+
     	#    handle call to docker build of main service in root Dockerfile
-	log "Building main docker image Dockerfile${DOCKERFILENAME} $PROJECT_NAME${DOCKERTAG}:$VERSION "
-        docker build -f Dockerfile${DOCKERFILENAME} --rm -t ${PROJECT_NAME}${DOCKERTAG}:${VERSION}  -t ${PROJECT_NAME}${DOCKERTAG}:latest .  ${CACHE}
-cd ..
+	log "Building main docker image Dockerfile${DOCKERFILENAME} ${PROJECT_NAME}:${VERSION}${DOCKERTAG} "
+        docker build -f Dockerfile${DOCKERFILENAME} -t ${PROJECT_NAME}:${VERSION}${DOCKERTAG}  --build-arg VERSION=${VERSION}  -t ${PROJECT_NAME}:${VERSION}${DOCKERTAG}  -t ${PROJECT_NAME}:latest .  ${CACHE}
+
+TEMP=$?
+if [ $TEMP -eq 0 ];then
+	echo "BUILD SUCCESS"
+else
+	echo "BUILD FAILED"
+	RESULT=$TEMP
+fi
+
+
 
 }
 
 pullStack() {
-    COMPOSE_FILENAME=$1
+    COMPOSE_FILENAME="${STACK_LOCATION}${1}.yml"
 
-	log "Pulling Stack ${COMPOSE_FILENAME}"
-    docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} pull
+	log "Pulling Stack ${1}"
+    dockerCompose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} pull
 }
 
 logStack() {
-    COMPOSE_FILENAME=$1
-    log "Logging Stack ${COMPOSE_FILENAME}"
-    docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME}logs
+    COMPOSE_FILENAME="${STACK_LOCATION}${1}.yml"
+    log "Logging Stack ${1}"
+    dockerCompose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} logs $2
 }
 
 statsStack() {
-    COMPOSE_FILENAME=$1
-    log "Stats Stack ${COMPOSE_FILENAME}"
-    docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} ps
+    COMPOSE_FILENAME="${STACK_LOCATION}${1}.yml"
+    log "Stats Stack ${1}"
+    dockerCompose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} ps
 }
 
 startStack() {
-    COMPOSE_FILENAME=$1
+    COMPOSE_FILENAME="${STACK_LOCATION}${1}.yml"
 
-	log "(Re-)Starting Stack ${COMPOSE_FILENAME}"
+	log "(Re-)Starting Stack ${1}"
 
-	stopStack  $COMPOSE_FILENAME
+	stopStack  ${1}
+
     if [ "$CREATE" -eq "1" ]; then
-	    log "(Re-)Creating Stack ${COMPOSE_FILENAME}"
-		  docker-compose -f $COMPOSE_FILENAME -p ${COMPOSE_PROJECT_NAME} build  --no-cache --force-rm
-	  fi
+	    log "(Re-)Creating Stack ${1}"
 
-    if [ -f $1 ]; then
-        log "Starting Stack with start-dependencies entrypoint"
-        docker-compose -f $1 -p ${COMPOSE_PROJECT_NAME} run --rm start-dependencies
-        if [ "$?" -ne "0" ]; then
-        log "wait-for-dependencies not found starting normal"
-            docker-compose -f $1 -p ${COMPOSE_PROJECT_NAME} up ${BACKGROUND}
-        fi
-    else
-        log "File not found ${1}"
+    if [ "${1}" == "service" ]; then
+      log "Recreating Dockerfile for main service"
+      makeIt 0
     fi
 
 
-    docker-compose -f $1 -p ${COMPOSE_PROJECT_NAME} up ${BACKGROUND}
-    RESULT=$?
+
+	  log "(Re-)Creating Stack ${1}"
+	dockerCompose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} build  --no-cache --force-rm
+	else
+	    log "Stopping Stack ${1}"
+	stopStack  ${1}
+	 fi
+
+ 	if [ "${1}" == "test" ]; then
+      log "Deleting Test Report Folder"
+      rm -rf stacks/componenttest/robot/report
+    fi
+
+    if [ -f ${COMPOSE_FILENAME} ]; then
+        log "Starting Stack with start-dependencies entrypoint"
+        dockerCompose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME}   run   start-dependencies
+        TEMP=$?
+#        if [ "$TEMP" -ne "0" ]; then
+#        	log "$TEMP start-dependencies not found starting normal"
+#            docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} up ${BACKGROUND} --build --force-recreate
+#            TEMP=$?
+#        fi
+#		else
+	#        check for log if run in run mode with start-dependencies
+
+			if [ $TEMP -eq 0 ];then
+				echo "COMMAND SUCCESS"
+			else
+				echo "COMMAND FAILED"
+				RESULT=$TEMP
+			fi
+
+			if [ -z "${BACKGROUND}"  ]; then
+	#        call log with tail -f
+			logStack $1 -f
+			fi
+
+#			iterate over all stacks entries and ghet exit code
+            RESULT=$(docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} ps -q   | xargs docker inspect -f '{{ .State.ExitCode }}' | grep -v '^0' | wc -l | tr -d ' ')
+#         fi
+    else
+        log "File not found ${1}"
+    fi
 }
 stopStack() {
-    COMPOSE_FILENAME=$1
-	  log "Stopping Stack ${COMPOSE_FILENAME}"
-    docker-compose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME} down -v
+    COMPOSE_FILENAME="${STACK_LOCATION}${1}.yml"
+	  log "Stopping Stack ${1}  ${COMPOSE_PROJECT_NAME}"
+    dockerCompose -f ${COMPOSE_FILENAME} -p ${COMPOSE_PROJECT_NAME}   down -v
+#     --rmi all
 }
 
 logAllImages() {
@@ -186,7 +288,7 @@ chooseServices() {
        all)
             ACTIVE_STACKS+=("infra")
             ACTIVE_STACKS+=("service")
-            ACTIVE_STACKS+=("debug")
+#            ACTIVE_STACKS+=("debug")
 #            ACTIVE_STACKS+=("test")
             ;;
      *)
@@ -234,7 +336,7 @@ chooseDockerfile() {
 #    STACK_SERVICE=0
 #fi
 
-while getopts 'v:m:a:u:d:p:l:s:chb' OPTION; do
+while getopts 'v:m:a:u:d:p:l:s:chbx:' OPTION; do
   case $OPTION in
     b)
     	log "Background flag -b found, starting in background"
@@ -269,6 +371,16 @@ while getopts 'v:m:a:u:d:p:l:s:chb' OPTION; do
         START=1
         STOP=0
         chooseServices $OPTARG
+    ;;
+    x)
+    	log "Publish flag -x found, pushing to registry"
+        PUSH=1
+        STATE_STACK=0
+        MAKE=0
+        START=0
+        STOP=0
+        EXECUTE=0
+        chooseDockerfile $OPTARG
     ;;
     d)
     	log "Stop flag -d found, stopping"
@@ -309,13 +421,22 @@ STACK_LOCATION_INFRA="${STACK_LOCATION}infrastructure.yml"
 STACK_LOCATION_DEBUG="${STACK_LOCATION}debug.yml"
 STACK_LOCATION_TEST="${STACK_LOCATION}test.yml"
 
+info(){
+
+
+
 
 log ""
 log "SIDT - Dockerfile '${DOCKERFILESUFFIX}'"
 log "SIDT - Suite '${SUITE_NAME}'"
 log "SIDT - Stacks [${ACTIVE_STACKS[*]}]"
 log ""
+log "${PROJECT_NAME}:${VERSION}"
+}
 
+
+
+ info
 execute(){
     log "Executing ${1}"
 
@@ -325,6 +446,7 @@ execute(){
     if [ "$START" -eq "1" ];then
     startStack $1
     fi
+
     if [ "$LOG_STACK" -eq "1" ];then
     logStack $1
     fi
@@ -338,6 +460,8 @@ execute(){
 
 }
 
+
+
 if [ "$DEBUG" -eq "1" ]; then
 set -x
 fi
@@ -345,7 +469,7 @@ fi
 if [ "$EXECUTE" -eq "1" ]; then
   for stack_name in "${ACTIVE_STACKS[@]}"
   do
-    execute ${STACK_LOCATION}${stack_name}.yml
+    execute ${stack_name}
   done
 
 #  for stack_name in "${ACTIVE_STACKS[@]}"
@@ -355,8 +479,9 @@ if [ "$EXECUTE" -eq "1" ]; then
 
 elif [ "$MAKE" -eq "1" ]; then
   makeIt
+elif [ "$PUSH" -eq "1" ];then
+    pushMainServiceDockerImage
 fi
-
 log ""
 log "SIDT - ${ACTIVE_STACKS}"
 log "SIDT - Service Infrastructure Debug Test Exit"
@@ -364,3 +489,4 @@ log ""
 
 echo "SIDT.sh exiting with result ${RESULT}"
 exit ${RESULT}
+

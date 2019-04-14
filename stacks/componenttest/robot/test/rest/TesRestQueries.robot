@@ -10,4 +10,4 @@ ${URI}            /__admin
 Test Rest GET
     Create Session    temp-name    ${HOST}
     ${result}=    Get Request    temp-name    ${URI}
-    Log    Body
+    Log    ${result.text}

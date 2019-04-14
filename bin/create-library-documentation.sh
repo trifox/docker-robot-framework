@@ -29,19 +29,24 @@ python -m robot.libdoc AdvancedLogging ${GENERATED}/doc/library/AdvancedLogging.
 python -m robot.libdoc DiffLibrary ${GENERATED}/doc/library/DiffLibrary.html
 python -m robot.libdoc StringFormat ${GENERATED}/doc/library/StringFormat.html
 python -m robot.libdoc RandomLibrary ${GENERATED}/doc/library/RandomLibrary.html
+python -m robot.libdoc RandomLibrary ${GENERATED}/doc/library/RandomLibrary.html
 python -m robot.libdoc RequestsLibrary  ${GENERATED}/doc/library/RequestsLibrary.html
 python -m robot.libdoc ZookeeperLibrary ${GENERATED}/doc/library/ZookeeperLibrary.html
 python -m robot.libdoc AsyncLibrary ${GENERATED}/doc/library/AsyncLibrary.html
 python -m robot.libdoc RedisLibrary ${GENERATED}/doc/library/RedisLibrary.html
 python -m robot.libdoc ApacheTomcatManager ${GENERATED}/doc/library/ApacheTomcatManagerLibrary.html
-python -m robot.libdoc ReactLibrary ${GENERATED}/doc/library/ReactLibrary.html
+python -m robot.libdoc ReactLibrary ${GENERATED}/doc/library/ReactLibrary.htmlfajer
 python -m robot.libdoc JMeterLib ${GENERATED}/doc/library/JMeterLibrary.html
 python -m robot.libdoc FtpLibrary ${GENERATED}/doc/library/FtpLibrary.html
 python -m robot.libdoc ImapLibrary ${GENERATED}/doc/library/ImapLibrary.html
 python -m robot.libdoc FakerLibrary ${GENERATED}/doc/library/FakerLibrary.html
 python -m robot.libdoc RabbitMq  ${GENERATED}/doc/library/RabbitMqLibrary.html
-python -m robot.libdoc WebpackLibrary  ${GENERATED}/doc/library/WebpackLibrary.html
 python -m robot.libdoc WebSocketClient  ${GENERATED}/doc/library/WebsocketClientLibrary.html
+python -m robot.libdoc REST  ${GENERATED}/doc/library/RestInstance.html
+python -m robot.libdoc MQTTLibrary  ${GENERATED}/doc/library/MQTTLibrary.html
+python -m robot.libdoc robotframework_pykafka  ${GENERATED}/doc/library/PyKafka.html
+python -m robot.libdoc JsonValidator  ${GENERATED}/doc/library/JsonValidator.html
+python -m robot.libdoc ElasticsearchLibrary  ${GENERATED}/doc/library/ElasticsearchLibrary.html
 else
 logvv "[INFO] Re-Using existing documentation"
 fi

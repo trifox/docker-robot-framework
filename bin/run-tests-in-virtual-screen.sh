@@ -2,8 +2,6 @@
 source util.sh
 START_TIME=$SECONDS
 
-
-
 logLogo
 
 log "[INFO] Running tests in virtual screens"

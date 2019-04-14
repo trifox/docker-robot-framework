@@ -8,7 +8,7 @@ PYTHON="$(pip list --outdated  --format=columns)"
 echo $PYTHON
 echo "$PYTHON">>$REPORTDIR/python-update.log
 echo "[INFO] Status of installed system packages"
-SYSTEM="$(apk info)"
+SYSTEM="$(apk info -vv)"
 echo "$SYSTEM"
 echo "$SYSTEM" >> $REPORTDIR/system-update.log
 

@@ -66,15 +66,37 @@ The robot framework comes with a bunch of preinstalled python libraries which ar
  
 [robotframework-yamlibrary==3.1.1](https://github.com/divfor/robotframework-yamllibrary)
  
+[RESTinstance==1.0.0rc5](https://github.com/asyrjasalo/RESTinstance)
+ 
 ## Building the container
 
 The docker image needs to be created using
 
-	docker build $@ . -t ufp-docker-robot-framework
+	./sidt.sh -m python2
+	
+and
 
-the above command is contained in the build script
+    ./sidt.sh -m python3
+    
+ 
+ # Running self-tests
+ 
+ use the stack.sh to bring up the testing infrastructur - after the build step before - using:
+ 
+    ./sidt.sh -u infra
+    
+ and then run the tests 
+ 
+    ./sidth.sh -u test -b
+    
+and the extensive tests testing both python2 and python3 images for their log levels v,vv and vv
 
-	./build.sh 
+    ./sidt.sh -u test-extensive -b
+
+
+# Build / Deploy
+
+The ./deploy.sh script is used to deploy the image to the docker.hub it is build, and after succesful tests it is deployed to docker hub
 
 ## Executing the container
 
@@ -90,7 +112,7 @@ this is an example docker-compose file that is included in this repo
 version: '3'
 services:
   roboter_chrome:
-	image: ufp-docker-robot-framework
+	image: ckleinhuis/ufp-robotframework:latest
 	 #
 	 # shared memory size configuration
 	 # even headless chrome needs some swapping memory, this is configured here
@@ -133,6 +155,7 @@ several environment variables:
 	* creates library documentaiton from bundled libraries in /reports/doc
 #### Loglevel vvv
 	* system level python packages version info
+	* beautify robot source code
 	* system level package version info
 
 ## Acknowledgments

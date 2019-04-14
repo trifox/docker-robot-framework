@@ -1,0 +1,65 @@
+version: "2"
+services:
+  robotframework-python2-vvv:
+    image: ckleinhuis/ufp-robotframework:15-python2
+    environment:
+    - LOG_LEVEL=vvv
+    - "ROBOT_OPTIONS=--exclude python3"
+    volumes:
+    - ./robot:/opt/robotframework/tests
+    - ./report/python2/vvv:/opt/robotframework/reports
+
+  robotframework-python2-vv:
+    image: ckleinhuis/ufp-robotframework:15-python2
+    environment:
+    - LOG_LEVEL=vv
+    - "ROBOT_OPTIONS=--exclude python3"
+    volumes:
+    - ./robot:/opt/robotframework/tests
+    - ./report/python2/vv:/opt/robotframework/reports
+
+  robotframework-python2-v:
+    image: ckleinhuis/ufp-robotframework:15-python2
+    environment:
+    - LOG_LEVEL=v
+    - "ROBOT_OPTIONS=--exclude python3"
+    volumes:
+    - ./robot:/opt/robotframework/tests
+    - ./report/python2/v:/opt/robotframework/reports
+
+  robotframework-python3-vvv:
+    image: ckleinhuis/ufp-robotframework:15-python3
+    environment:
+    - "ROBOT_OPTIONS=--exclude python2"
+    - LOG_LEVEL=vvv
+    volumes:
+    - ./robot:/opt/robotframework/tests
+    - ./report/python3/vvv:/opt/robotframework/reports
+
+  robotframework-python3-vv:
+    image: ckleinhuis/ufp-robotframework:15-python3
+    environment:
+    - "ROBOT_OPTIONS=--exclude python2"
+    - LOG_LEVEL=vv
+    volumes:
+    - ./robot:/opt/robotframework/tests
+    - ./report/python3/vv:/opt/robotframework/reports
+
+  robotframework-python3-v:
+    image: ckleinhuis/ufp-robotframework:15-python3
+    environment:
+    - "ROBOT_OPTIONS=--exclude python2"
+    - LOG_LEVEL=v
+    volumes:
+    - ./robot:/opt/robotframework/tests
+    - ./report/python3/v:/opt/robotframework/reports
+
+  start-dependencies:
+    image:  dadarek/wait-for-dependencies
+    depends_on:
+      - robotframework-python3-vvv
+      - robotframework-python3-vv
+      - robotframework-python3-v
+      - robotframework-python2-vvv
+      - robotframework-python2-vv
+      - robotframework-python2-v

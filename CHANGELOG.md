@@ -1,5 +1,13 @@
 # Extended Robot Framework in Docker and Chrome Headless 
  
+## 15.0.0
+
+    - update overview
+    - chromium 72
+    - python3 and python2 images build
+    - extend self testing testing more included libraries
+    - include RestInstance
+
 ## 14.0.0
  - maintenance, fixes output index.html overview in log mode 'v'
 

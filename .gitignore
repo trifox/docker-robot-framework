@@ -10,4 +10,4 @@
 stacks/componenttest/robot/report
 reports/
 test/simpletest-demo*
-stacks/componenttest/report/
+stacks/componenttest/report*

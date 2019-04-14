@@ -22,7 +22,7 @@ log ""
 ACTIVE_STACKS=(infra service debug test)
 
 CACHE="--no-cache"
-#CACHE=""
+CACHE=""
 DOCKERFILESUFFIX=""
 
 SUITE_NAME=${SIDT_SUITE:-"componenttest"}

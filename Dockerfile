@@ -1,8 +1,8 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 MAINTAINER Christian Kleinhuis <trifox@users.noreply.github.com>
 
-LABEL description Library rich Robot Framework in Docker Chrome Headless.
+LABEL description="Library rich Robot Framework in Docker Chrome Headless."
 
 VOLUME /opt/robotframework/reports
 VOLUME /opt/robotframework/tests
@@ -12,6 +12,7 @@ RUN apk -v update && apk -v upgrade && apk add -v --no-cache \
 		chromium-chromedriver\
 		chromium\
 		py2-pip\
+		xauth\
 		bash\
 	&& apk -v del --purge\
 	&& rm -rf /var/cache/apk/*
@@ -20,7 +21,7 @@ RUN apk -v update && apk -v upgrade && apk add -v --no-cache \
 # install required/wanted robot-libraries and needed python modules
 RUN pip install \
 	# Base Libraries\
-	robotframework==3.1\
+	robotframework==3.1.1\
 	# Data Exchange\
 	robotframework-jsonlibrary==0.2\
 	robotframework-csvlibrary==0.0.2\
@@ -28,15 +29,15 @@ RUN pip install \
 	robotframework-jsonschemalibrary==1.0\
 	robotframework-jsonvalidator==1.0.1\
 	# Database\
-	robotframework-databaselibrary==1.1.1\
+	robotframework-databaselibrary==1.2\
 	robotframework-mongodblibrary==0.3.4\
-	pg8000==1.12.3\
-	PyMySQL==0.8.1\
+	pg8000==1.12.5\
+	PyMySQL==0.9.3\
 	# Services\
 	robotframework-apachetomcat==1.0.1\
 	robotframework-imaplibrary==0.3.0\
-	robotframework-kafkalibrary==0.0.1\
-	robotframework-rabbitmq==1.0.1\
+	robotframework-kafkalibrary==0.0.2\
+	robotframework-rabbitmq==2.0.1\
 	robotframework-redislibrary==0.1\
 	robotframework-zookeeperlibrary==0.1.4\
 	robotframework-ftplibrary==1.6\
@@ -53,8 +54,9 @@ RUN pip install \
 	robotframework-requests==0.5.0\
 	robotframework-stringformat==0.1.8\
 	robotframework-randomlibrary==0.0.2\
-	robotframework-seleniumlibrary==3.2.0\
+	robotframework-seleniumlibrary==3.3.1\
 	robotframework-websocketclient==1.3.0\
+	JSONLibrary==1.3.0\
     && pip list --outdated
 # inactive due to size
 # env setup for running tests
